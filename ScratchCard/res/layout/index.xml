@@ -50,7 +50,7 @@
 
         <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="35dip"
+                android:layout_height="20dip"
                 android:layout_gravity="bottom"
                 android:background="#33000000"
                 android:gravity="center"
@@ -84,5 +84,15 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/select_scope_tip"
+              android:textAlignment="center"/>
+    <ImageButton
+            android:id="@+id/btn_lunpan"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
+            android:background="#e0000000"
+            android:src="@drawable/lunpan_none" />
 </LinearLayout>

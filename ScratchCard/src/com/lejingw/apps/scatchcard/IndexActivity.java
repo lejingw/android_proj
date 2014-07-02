@@ -16,6 +16,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -91,6 +92,67 @@ public class IndexActivity extends Activity {
 				IndexActivity.this.finish();
 			}
 		});
+
+        ImageView imageView = (ImageView)findViewById(R.id.btn_lunpan);
+
+
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            private float touchStartX = 0;
+            private float touchStartY = 0;
+            private final float CLICK_STEP_LENGTH = 20;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                int[] location = new int[2];
+                view.getLocationOnScreen(location);
+                int x = location[0];
+                int y = location[1];
+                Log.d("msg", "x:"+ x + " y:" + y);
+
+                final float centerPointX = location[0] + view.getWidth()/2;
+                final float centerPointY = location[1] + view.getHeight()/2;
+
+                switch (motionEvent.getAction()) {
+                    //触摸屏幕时刻
+                    case MotionEvent.ACTION_DOWN:
+                        touchStartX = motionEvent.getRawX();
+                        touchStartY = motionEvent.getRawY();
+                        break;
+                    //触摸并移动时刻
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    //终止触摸时刻
+                    case MotionEvent.ACTION_UP:
+//                        showXY(motionEvent.getX(), motionEvent.getY());
+                        //判断为点击事件
+                        if (Math.abs(touchStartX - motionEvent.getX()) < CLICK_STEP_LENGTH && Math.abs(touchStartY - motionEvent.getY()) < CLICK_STEP_LENGTH) {
+                            int clickX = (int)(touchStartX + motionEvent.getRawX())/2;
+                            int clickY = (int)(touchStartY + motionEvent.getRawY())/2;
+                            int area = getDegreeArea(centerPointX, centerPointY, clickX, clickY);
+                            Log.d("Msg", "===========area:"+ area);
+                            System.out.print("centerPointX=" + centerPointX + "\t");
+                            System.out.print("centerPointY=" + centerPointY + "\t");
+                            System.out.print("clickX=" + clickX + "\t");
+                            System.out.println("clickY=" + clickY + "\t");
+                        }
+                        break;
+                }
+                Log.d("msg", "x:"+motionEvent.getX() + " y:" + motionEvent.getY());
+                Log.d("msg", "x:"+view.getY() + " width:" + view.getWidth());
+                Log.d("msg", "y:"+view.getX() + " height:" + view.getHeight());
+                return false;
+            }
+
+            private int getDegreeArea(double centerPointX, double centerPointY, double x, double y){
+                int degree = new Double(Math.acos((x - centerPointX)/Math.sqrt(Math.pow(x-centerPointX, 2) + Math.pow(y - centerPointY, 2)))/Math.PI * 180).intValue();
+                //在第四象限，或第一象限
+                if(y < centerPointY){
+                    degree = 360 - degree;
+                }
+                //调整，坐标系逆时针旋转90度
+                degree -= 90;
+                return degree/(360/5);
+            }
+        });
 
 	}
 
