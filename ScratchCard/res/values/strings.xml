@@ -4,8 +4,4 @@
 	<string name="app_name">ScratchCard</string>
 	<string name="mainTitle">中国福彩刮刮乐</string>
 
-	<string name="indexPageRadio">首页</string>
-	<string name="mySratchCardRadio">我的刮刮乐</string>
-	<string name="pushMoneyRadio">充值</string>
-	<string name="pullMoneyRadio">提现</string>
 </resources>

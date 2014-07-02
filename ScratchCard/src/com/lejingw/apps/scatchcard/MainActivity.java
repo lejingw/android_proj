@@ -63,16 +63,16 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
     private void setupIntent() {
         this.tabHost = getTabHost();
 
-        this.tabHost.addTab(buildTabSpec(TAB_NAME_0, R.string.indexPageRadio, R.drawable.icon_0_n, this.mAIntent));
-        this.tabHost.addTab(buildTabSpec(TAB_NAME_1, R.string.mySratchCardRadio, R.drawable.icon_1_n, this.mBIntent));
-        this.tabHost.addTab(buildTabSpec(TAB_NAME_2, R.string.pushMoneyRadio, R.drawable.icon_2_n, this.mCIntent));
-        this.tabHost.addTab(buildTabSpec(TAB_NAME_3, R.string.pullMoneyRadio, R.drawable.icon_3_n, this.mDIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_0, "", R.drawable.tab_sy, this.mAIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_1, "", R.drawable.tab_wd, this.mBIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_2, "", R.drawable.tab_cz, this.mCIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_3, "", R.drawable.tab_tx, this.mDIntent));
     }
 
-    private TabHost.TabSpec buildTabSpec(String tag, int resLabel, int resIcon, final Intent content) {
+    private TabHost.TabSpec buildTabSpec(String tag, String resLabel, int resIcon, final Intent content) {
         return this.tabHost
                 .newTabSpec(tag)
-                .setIndicator(getString(resLabel), getResources().getDrawable(resIcon))
+                .setIndicator(resLabel, getResources().getDrawable(resIcon))
                 .setContent(content);
     }
 }

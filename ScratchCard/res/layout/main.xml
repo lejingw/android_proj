@@ -30,24 +30,20 @@
 
 			<RadioButton android:id="@+id/radio_button0"
 						 style="@style/radio_style"
-						 android:text="@string/indexPageRadio"
-						 android:drawableTop="@drawable/icon_0_n"
+						 android:drawableTop="@drawable/tab_sy"
 						 android:checked="true"/>
 
 			<RadioButton android:id="@+id/radio_button1"
 						 style="@style/radio_style"
-						 android:drawableTop="@drawable/icon_1_n"
-						 android:text="@string/mySratchCardRadio"/>
+						 android:drawableTop="@drawable/tab_wd"/>
 
 			<RadioButton android:id="@+id/radio_button2"
 						 style="@style/radio_style"
-						 android:drawableTop="@drawable/icon_2_n"
-						 android:text="@string/pushMoneyRadio"/>
+						 android:drawableTop="@drawable/tab_cz"/>
 
 			<RadioButton android:id="@+id/radio_button3"
 						 style="@style/radio_style"
-						 android:drawableTop="@drawable/icon_3_n"
-						 android:text="@string/pullMoneyRadio"/>
+						 android:drawableTop="@drawable/tab_tx"/>
 		</RadioGroup>
 
 	</LinearLayout>
