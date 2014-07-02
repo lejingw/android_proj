@@ -1,207 +1,78 @@
 package com.lejingw.apps.scatchcard;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-
-import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
-import android.widget.TextView;
+import android.view.Window;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RadioButton;
+import android.widget.TabHost;
 
-/**
- * 仿优酷Android客户端图片左右滑动
- */
-public class MainActivity extends Activity {
-	private ViewPager viewPager; // android-support-v4中的滑动组件
-	private List<ImageView> imageViews; // 滑动的图片集合
+public class MainActivity extends TabActivity implements OnCheckedChangeListener {
+    private final String TAB_NAME_0 = "tab_0";
+    private final String TAB_NAME_1 = "tab_1";
+    private final String TAB_NAME_2 = "tab_2";
+    private final String TAB_NAME_3 = "tab_3";
+    private TabHost tabHost;
 
-	private String[] titles; // 图片标题
-	private int[] imageResId; // 图片ID
-	private List<View> dots; // 图片标题正文的那些点
+    private Intent mAIntent;
+    private Intent mBIntent;
+    private Intent mCIntent;
+    private Intent mDIntent;
 
-//	private TextView tv_title;
-	private int currentItem = 0; // 当前图片的索引号
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.main);
 
-	// An ExecutorService that can schedule commands to run after a given delay,
-	// or to execute periodically.
-	private ScheduledExecutorService scheduledExecutorService;
+        this.mAIntent = new Intent(this, IndexActivity.class);
+        this.mBIntent = new Intent(this, MySratchCardActivity.class);
+        this.mCIntent = new Intent(this, PushMoneyActivity.class);
+        this.mDIntent = new Intent(this, PullMoneyActivity.class);
 
-	// 切换当前显示的图片
-	private Handler handler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			viewPager.setCurrentItem(currentItem);// 切换当前显示的图片
-		}
-	};
+        ((RadioButton) findViewById(R.id.radio_button0)).setOnCheckedChangeListener(this);
+        ((RadioButton) findViewById(R.id.radio_button1)).setOnCheckedChangeListener(this);
+        ((RadioButton) findViewById(R.id.radio_button2)).setOnCheckedChangeListener(this);
+        ((RadioButton) findViewById(R.id.radio_button3)).setOnCheckedChangeListener(this);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+        setupIntent();
+    }
 
-		imageResId = new int[]{R.drawable.img_roll_advs1_s, R.drawable.img_roll_advs2_s, R.drawable.img_roll_advs3_s, R.drawable.img_roll_advs4_s};
-		titles = new String[imageResId.length];
-		titles[0] = "title0";
-		titles[1] = "title1";
-		titles[2] = "title2";
-		titles[3] = "title3";
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            switch (buttonView.getId()) {
+                case R.id.radio_button0:
+                    this.tabHost.setCurrentTabByTag(TAB_NAME_0);
+                    break;
+                case R.id.radio_button1:
+                    this.tabHost.setCurrentTabByTag(TAB_NAME_1);
+                    break;
+                case R.id.radio_button2:
+                    this.tabHost.setCurrentTabByTag(TAB_NAME_2);
+                    break;
+                case R.id.radio_button3:
+                    this.tabHost.setCurrentTabByTag(TAB_NAME_3);
+                    break;
+            }
+        }
+    }
 
-		imageViews = new ArrayList<ImageView>();
+    private void setupIntent() {
+        this.tabHost = getTabHost();
 
-		// 初始化图片资源
-		for (int i = 0; i < imageResId.length; i++) {
-			ImageView imageView = new ImageView(this);
-			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
-			imageViews.add(imageView);
-		}
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_0, R.string.indexPageRadio, R.drawable.icon_0_n, this.mAIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_1, R.string.mySratchCardRadio, R.drawable.icon_1_n, this.mBIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_2, R.string.pushMoneyRadio, R.drawable.icon_2_n, this.mCIntent));
+        this.tabHost.addTab(buildTabSpec(TAB_NAME_3, R.string.pullMoneyRadio, R.drawable.icon_3_n, this.mDIntent));
+    }
 
-
-		dots = new ArrayList<View>();
-		dots.add(findViewById(R.id.v_dot0));
-		dots.add(findViewById(R.id.v_dot1));
-		dots.add(findViewById(R.id.v_dot2));
-		dots.add(findViewById(R.id.v_dot3));
-
-//		tv_title = (TextView) findViewById(R.id.tv_title);
-//		tv_title.setText(titles[0]);//
-
-		viewPager = (ViewPager) findViewById(R.id.vp);
-		viewPager.setAdapter(new MyAdapter());// 设置填充ViewPager页面的适配器
-		// 设置一个监听器，当ViewPager中的页面改变时调用
-		viewPager.setOnPageChangeListener(new MyPageChangeListener());
-
-		findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.d("msg", "========goToMainActiviti===========");
-				Intent intent = new Intent(MainActivity.this, StartActivity.class);
-				startActivity(intent);
-				MainActivity.this.finish();
-			}
-		});
-
-	}
-
-	@Override
-	protected void onStart() {
-		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-		// 当Activity显示出来后，每两秒钟切换一次图片显示
-		scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 2, TimeUnit.SECONDS);
-		super.onStart();
-	}
-
-	@Override
-	protected void onStop() {
-		// 当Activity不可见的时候停止切换
-		scheduledExecutorService.shutdown();
-		super.onStop();
-	}
-
-	/**
-	 * 换行切换任务
-	 *
-	 * @author Administrator
-	 */
-	private class ScrollTask implements Runnable {
-
-		public void run() {
-			synchronized (viewPager) {
-				System.out.println("currentItem: " + currentItem);
-				currentItem = (currentItem + 1) % imageViews.size();
-				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
-			}
-		}
-
-	}
-
-	/**
-	 * 当ViewPager中页面的状态发生改变时调用
-	 *
-	 * @author Administrator
-	 */
-	private class MyPageChangeListener implements OnPageChangeListener {
-		private int oldPosition = 0;
-
-		/**
-		 * This method will be invoked when a new page becomes selected.
-		 * position: Position index of the new selected page.
-		 */
-		public void onPageSelected(int position) {
-			currentItem = position;
-//			tv_title.setText(titles[position]);
-			dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
-			dots.get(position).setBackgroundResource(R.drawable.dot_focused);
-			oldPosition = position;
-		}
-
-		public void onPageScrollStateChanged(int arg0) {
-
-		}
-
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-		}
-	}
-
-	/**
-	 * 填充ViewPager页面的适配器
-	 *
-	 * @author Administrator
-	 */
-	private class MyAdapter extends PagerAdapter {
-
-		@Override
-		public int getCount() {
-			return imageResId.length;
-		}
-
-		@Override
-		public Object instantiateItem(View arg0, int arg1) {
-			((ViewPager) arg0).addView(imageViews.get(arg1));
-			return imageViews.get(arg1);
-		}
-
-		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
-			((ViewPager) arg0).removeView((View) arg2);
-		}
-
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
-		}
-
-		@Override
-		public void restoreState(Parcelable arg0, ClassLoader arg1) {
-
-		}
-
-		@Override
-		public Parcelable saveState() {
-			return null;
-		}
-
-		@Override
-		public void startUpdate(View arg0) {
-
-		}
-
-		@Override
-		public void finishUpdate(View arg0) {
-
-		}
-	}
+    private TabHost.TabSpec buildTabSpec(String tag, int resLabel, int resIcon, final Intent content) {
+        return this.tabHost
+                .newTabSpec(tag)
+                .setIndicator(getString(resLabel), getResources().getDrawable(resIcon))
+                .setContent(content);
+    }
 }

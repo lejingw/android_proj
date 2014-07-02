@@ -4,7 +4,7 @@
     <dimen name="bottom_tab_font_size">10.0sp</dimen>
 	<dimen name="bottom_tab_padding_up">5.0dip</dimen>
 	<dimen name="bottom_tab_padding_drawable">2.0dip</dimen>
-
+<!--
     <dimen name="switch_logo_bottom_padding">30.0sp</dimen>
     <dimen name="widget_height">100.0dip</dimen>
     <dimen name="sta_height">48.0dip</dimen>
@@ -22,5 +22,5 @@
     <dimen name="title_text_size">20.0sp</dimen>
     <dimen name="normal_padding_length">10.0dip</dimen>
     <dimen name="no_result_padding_length">50.0dip</dimen>
-
+-->
 </resources>

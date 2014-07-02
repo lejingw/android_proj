@@ -15,5 +15,9 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".MainActivity"></activity>
+		<activity android:name=".IndexActivity"></activity>
+		<activity android:name=".MySratchCardActivity"></activity>
+		<activity android:name=".PushMoneyActivity"></activity>
+		<activity android:name=".PullMoneyActivity"></activity>
 	</application>
 </manifest>

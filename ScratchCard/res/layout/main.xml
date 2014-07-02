@@ -1,88 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="#FFFFFF"
-              android:orientation="vertical" >
+<?xml version="1.0" encoding="UTF-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+		 android:id="@android:id/tabhost"
+		 android:layout_width="fill_parent"
+		 android:layout_height="fill_parent">
 
-    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="40dip"
-            android:background="@drawable/title_bk" >
+	<LinearLayout android:layout_width="fill_parent"
+				  android:layout_height="fill_parent"
+				  android:orientation="vertical">
 
-        <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_back_selector"
-                android:src="@drawable/btn_back" />
-<!--
-        <View
-                android:id="@+id/line0"
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@id/btn_back"
-                android:background="#aa11264f" />
+		<FrameLayout android:id="@android:id/tabcontent"
+					 android:layout_width="fill_parent"
+					 android:layout_height="0.0dip"
+					 android:layout_weight="1.0"/>
 
-        <View
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:layout_toRightOf="@id/line0"
-                android:background="#009ad6" />
--->
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/mainTitle"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-    </RelativeLayout>
+		<TabWidget android:id="@android:id/tabs"
+				   android:layout_width="fill_parent"
+				   android:layout_height="wrap_content"
+				   android:layout_weight="0.0"
+				   android:visibility="gone"/>
 
-    <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="140dip" >
+		<RadioGroup android:id="@+id/main_radio"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom"
+					android:gravity="center_vertical"
+					android:background="@drawable/maintab_toolbar_bg"
+					android:orientation="horizontal">
 
-        <android.support.v4.view.ViewPager
-                android:id="@+id/vp"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
 
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="35dip"
-                android:layout_gravity="bottom"
-                android:background="#33000000"
-                android:gravity="center"
-                android:orientation="vertical" >
-<!--
-            <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#ffffff" />
--->
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dip"
-                    android:gravity="center" >
+			<RadioButton android:id="@+id/radio_button0"
+						 style="@style/radio_style"
+						 android:text="@string/indexPageRadio"
+						 android:drawableTop="@drawable/icon_0_n"
+						 android:checked="true"/>
 
-                <View android:id="@+id/v_dot0"
-                        style="@style/dot_style"
-                        android:background="@drawable/dot_focused" />
+			<RadioButton android:id="@+id/radio_button1"
+						 style="@style/radio_style"
+						 android:drawableTop="@drawable/icon_1_n"
+						 android:text="@string/mySratchCardRadio"/>
 
-                <View android:id="@+id/v_dot1"
-                        style="@style/dot_style" />
+			<RadioButton android:id="@+id/radio_button2"
+						 style="@style/radio_style"
+						 android:drawableTop="@drawable/icon_2_n"
+						 android:text="@string/pushMoneyRadio"/>
 
-                <View android:id="@+id/v_dot2"
-                        style="@style/dot_style" />
+			<RadioButton android:id="@+id/radio_button3"
+						 style="@style/radio_style"
+						 android:drawableTop="@drawable/icon_3_n"
+						 android:text="@string/pullMoneyRadio"/>
+		</RadioGroup>
 
-                <View android:id="@+id/v_dot3"
-                        style="@style/dot_style" />
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
+	</LinearLayout>
 
-</LinearLayout>
+</TabHost>
