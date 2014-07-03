@@ -17,9 +17,6 @@ import android.widget.ImageView.ScaleType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 仿优酷Android客户端图片左右滑动
- */
 public class StartActivity extends Activity {
 	private ViewPager viewPager; // android-support-v4中的滑动组件
 	private View toMainView;
@@ -70,6 +67,7 @@ public class StartActivity extends Activity {
 					break;
 				//终止触摸时刻
 				case MotionEvent.ACTION_UP:
+                    Log.d("msg", "========xxxxxxxxxxx===========");
 					showXY(event.getX(), event.getY());
 					//判断为点击事件
 					if (Math.abs(touchStartX - event.getX()) < CLICK_STEP_LENGTH && Math.abs(touchStartY - event.getY()) < CLICK_STEP_LENGTH) {
@@ -83,7 +81,6 @@ public class StartActivity extends Activity {
 					}
 					break;
 			}
-
 			return StartActivity.super.onTouchEvent(event);
 		}
 	};
@@ -149,7 +146,7 @@ public class StartActivity extends Activity {
 	private class ScrollTask implements Runnable {
 		public void run() {
 			synchronized (viewPager) {
-				System.out.println("currentItem: " + currentItem);
+				//System.out.println("currentItem: " + currentItem);
 				currentItem = (currentItem + 1) % imageViews.size();
 				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
 			}

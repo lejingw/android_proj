@@ -94,5 +94,5 @@
             android:layout_height="fill_parent"
             android:scaleType="centerCrop"
             android:background="#e0000000"
-            android:src="@drawable/lunpan_none" />
+            android:src="@drawable/lunpan_0" />
 </LinearLayout>
