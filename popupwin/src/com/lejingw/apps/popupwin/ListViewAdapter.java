@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,17 @@ public class ListViewAdapter extends SimpleAdapter {
                 public void onClick(View v) {
                     expendFlag = !expendFlag;
                     //更换展开，合并图片
-                    expandImageView.setImageResource(expendFlag?R.drawable.collipse:R.drawable.expand);
+//                    expandImageView.setImageResource(expendFlag?R.drawable.collipse:R.drawable.expand);
                     System.out.println("============================expendFlag=" + expendFlag);
 //                    expandImageView.setImageResource(R.drawable.collipse);
+//					//点击后变大的位图：
+//					Bitmap btm2=Bitmap.createScaledBitmap(btm1, 40, 50, false); //这里你可以自定义它的大小
+//					BitmapDrawable bd2=BitmapDrawable(btm2);
+					imageView.setBackgroundDrawable(v.getResources().getDrawable(R.drawable.collipse));
+
+//					expandImageView.setImageBitmap(BitmapFactory.decodeResource(imageView.getResources(), R.drawable.collipse));
+//					expandImageView.refreshDrawableState();
+//					expandImageView.invalidate();
                     //                imageView.setHei
                     ////                Bitmap bitmapOrg = imageView.getDrawingCache();
                     //                Bitmap bitmapOrg = BitmapFactory.decodeResource(imageView.getResources(), R.drawable.icon48x48_1);

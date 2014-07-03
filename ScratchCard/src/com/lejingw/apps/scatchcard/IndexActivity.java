@@ -17,15 +17,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.*;
+import android.widget.*;
 import android.widget.ImageView.ScaleType;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
 public class IndexActivity extends Activity {
     private ViewPager viewPager; // android-support-v4中的滑动组件
@@ -58,8 +52,10 @@ public class IndexActivity extends Activity {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View vPopWindow = inflater.inflate(R.layout.select_item_list, null, false);
         //宽300 高300
-        final PopupWindow popWindow = new PopupWindow(vPopWindow, 300, 300, true);
-        Button okButton = (Button) vPopWindow.findViewById(R.id.button1);
+//        final PopupWindow popWindow = new PopupWindow(vPopWindow, 300, 300, true);
+		final PopupWindow popWindow = new PopupWindow(vPopWindow, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+
+		Button okButton = (Button) vPopWindow.findViewById(R.id.button1);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
