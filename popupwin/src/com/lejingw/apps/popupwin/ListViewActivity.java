@@ -1,15 +1,11 @@
 package com.lejingw.apps.popupwin;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,18 +22,40 @@ public class ListViewActivity extends Activity {
 
         List<HashMap<String, Object>> data = createTempData();
         //创建SimpleAdapter适配器将数据绑定到item显示控件上
-        SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.list_item,
+        SimpleAdapter adapter = new ListViewAdapter(this, data, R.layout.list_item,
                 new String[]{"name", "phone", "amount"}, new int[]{R.id.name, R.id.phone, R.id.amount});
         //实现列表的显示
         listView.setAdapter(adapter);
         //条目点击事件
         listView.setOnItemClickListener(new ItemClickListener());
     }
-
+/*
+    public void onMyButtonClicksssssssssssssss(View view){
+//        view.getParent().getParent
+        ImageView imageView = (ImageView) view;
+//        imageView.setImageResource(R.drawable.collipse);
+//        imageView.setImageDrawable(getResources().getDrawable(R.drawable.collipse));
+//        Toast.makeText(this, "Button clicked!", Toast.LENGTH_SHORT).show();
+       // Bitmap bitmapOrg = imageView.getDrawingCache();
+        Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.expand);
+        // 创建操作图片用的matrix对象
+        Matrix matrix = new Matrix();
+        // 缩放图片动作
+        matrix.postScale(bitmapOrg.getWidth(), bitmapOrg.getHeight());
+        //旋转图片 动作
+        matrix.postRotate(180);
+        // 创建新的图片
+        Bitmap resizedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true);
+        //将上面创建的Bitmap转换成Drawable对象，使得其可以使用在 ImageView, ImageButton中
+        BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
+//        imageView.setImageDrawable(bmd);
+        imageView.setImageBitmap(resizedBitmap);
+    }
+*/
     private List<HashMap<String, Object>> createTempData() {
         String[] ids = new String[]{"1", "2", "3"};
-        String[] names = new String[]{"aaaaaaa", "bbbbbbb", "cccccc"};
-        String[] phones = new String[]{"123", "234", "345"};
+        String[] names = new String[]{"宝石奇缘", "马到成功", "龙腾盛世"};
+        String[] phones = new String[]{"20万", "20万", "50万"};
         String[] amounts = new String[]{"99", "100", "101"};
         List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
 
@@ -54,12 +72,11 @@ public class ListViewActivity extends Activity {
 
     //获取点击事件
     private final class ItemClickListener implements AdapterView.OnItemClickListener {
-
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ListView listView = (ListView) parent;
+            /*ListView listView = (ListView) parent;
             HashMap<String, Object> data = (HashMap<String, Object>) listView.getItemAtPosition(position);
             String personid = data.get("id").toString();
-            Toast.makeText(getApplicationContext(), personid, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), personid, Toast.LENGTH_SHORT).show();*/
         }
     }
 
