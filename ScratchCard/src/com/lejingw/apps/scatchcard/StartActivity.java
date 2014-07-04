@@ -239,11 +239,4 @@ public class StartActivity extends Activity {
 
 		}
 	}
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // 如果是返回键,直接返回到桌面
-        if(keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME){
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 }
