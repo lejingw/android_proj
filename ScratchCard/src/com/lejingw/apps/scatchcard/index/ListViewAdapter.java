@@ -1,6 +1,7 @@
 package com.lejingw.apps.scatchcard.index;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,13 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class ListViewInnerAdapter extends BaseAdapter {
+public class ListViewAdapter extends BaseAdapter {
     private int[] startScoreArr = new int[]{R.id.star_score1, R.id.star_score2, R.id.star_score3, R.id.star_score4, R.id.star_score5};
 
     private List<ScratchData> scratchDataList;
     private Context context;
 
-    public ListViewInnerAdapter(Context context, List<ScratchData> scratchDataList) {
+    public ListViewAdapter(Context context, List<ScratchData> scratchDataList) {
         super();
         this.context = context;
         this.scratchDataList = scratchDataList;
@@ -81,11 +82,9 @@ public class ListViewInnerAdapter extends BaseAdapter {
 
                 if (expendFlag) {
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200*140/120);
-//                    name.setTop(10);
                     scratchPic.setLayoutParams(layoutParams);
                 } else {
                     RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(140, 120);
-//                    name.setTop(0);
 //                  android:layout_alignParentLeft="true"
 //                  android:layout_centerVertical="true"
 //                  layoutParams.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -98,20 +97,8 @@ public class ListViewInnerAdapter extends BaseAdapter {
 
 
         //条目点击事件
-        view.setOnClickListener(new BusinessItemClickListener());
+        //view.setOnClickListener(new BusinessItemClickListener());
 
         return view;
-    }
-    //获取点击事件
-    private final class BusinessItemClickListener implements View.OnClickListener {
-        public void onClick(View view) {
-            System.out.println("=============show scratchcard==============");
-            /*
-            ListView listView = (ListView) parent;
-            HashMap<String, Object> data = (HashMap<String, Object>) listView.getItemAtPosition(position);
-            String personid = data.get("id").toString();
-            Toast.makeText(getApplicationContext(), personid, Toast.LENGTH_SHORT).show();
-            */
-        }
     }
 }

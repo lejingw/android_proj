@@ -3,11 +3,14 @@ package com.lejingw.apps.scatchcard;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class MainActivity extends TabActivity implements OnCheckedChangeListener {
     private final String TAB_NAME_0 = "tab_0";
@@ -38,6 +41,17 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
         ((RadioButton) findViewById(R.id.radio_button3)).setOnCheckedChangeListener(this);
 
         setupIntent();
+
+//        int count = tabHost.getChildCount();
+//        //TabHost中有一个getTabWidget()的方法
+//        for (int i = 0; i < count; i++) {
+//            View view = tabHost.getTabWidget().getChildTabViewAt(i);
+//            view.getLayoutParams().height = 80;
+//            //tabWidget.getChildAt(i);
+//            final TextView tv = (TextView) view.findViewById(android.R.id.title);
+//            tv.setTextSize(28);
+//            tv.setTextColor(this.getResources().getColorStateList(android.R.color.white));
+//        }
     }
 
     @Override

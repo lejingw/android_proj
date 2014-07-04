@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#AAAAAA"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+
+    <LinearLayout android:id="@+id/scratchcardLayout"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="horizontal">
+
+        <!--<ImageView android:layout_width="fill_parent"
+                   android:layout_height="fill_parent"
+                   android:scaleType="fitXY"
+                   android:src="@drawable/img_stone_main"/>-->
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="-40dp"
+                  android:orientation="horizontal">
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="免费试刮"
+                android:textColor="@android:color/white"
+                android:background="@android:color/darker_gray"
+                android:layout_weight="1"/>
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="购买卡片"
+                android:textColor="@android:color/white"
+                android:background="@android:color/holo_red_dark"
+                android:layout_weight="2"/>
+
+    </LinearLayout>
+
+</LinearLayout>

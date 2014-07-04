@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -49,17 +50,21 @@ public class StartActivity extends Activity {
 		private float touchStartY = 0;
 		private final float CLICK_STEP_LENGTH = 20;
 
-        private final float CLICK_X_MIN = 160;
-        private final float CLICK_X_LENGTH = 160;
+        private float CLICK_X_MIN = 160;
+        private float CLICK_X_LENGTH = 160;
 
         private float CLICK_Y_MIN = -1;
-        private final float CLICK_Y_LENGTH = 160;
+        private float CLICK_Y_LENGTH = -1;
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
             if(CLICK_Y_MIN<0){
                 DisplayMetrics dm  = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(dm);
+                CLICK_X_LENGTH = dm.widthPixels / 3;
+                CLICK_X_MIN = dm.widthPixels / 3;
+
+                CLICK_Y_LENGTH = CLICK_X_LENGTH / 2;
                 CLICK_Y_MIN = dm.heightPixels - CLICK_Y_LENGTH;
 
                 Log.d("msg", "touch=" + currentItem + " x:" + dm.widthPixels + " y:" + CLICK_Y_MIN);
@@ -91,6 +96,7 @@ public class StartActivity extends Activity {
 			return StartActivity.super.onTouchEvent(event);
 		}
 	};
+
 	private void goToMainActiviti(){
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
@@ -233,4 +239,11 @@ public class StartActivity extends Activity {
 
 		}
 	}
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // 如果是返回键,直接返回到桌面
+        if(keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME){
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

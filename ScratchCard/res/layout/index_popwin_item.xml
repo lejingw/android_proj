@@ -5,9 +5,8 @@
 				android:background="#ffffff">
 
 	<ImageView android:id="@+id/scratchPicView"
-			   android:layout_width="140px"
-			   android:layout_height="120px"
-			   android:layout_alignParentLeft="true"
+			   android:layout_width="100dip"
+			   android:layout_height="80dip"
 			   android:layout_centerVertical="true"
 			   android:src="@drawable/icon48x48_1"/>
 

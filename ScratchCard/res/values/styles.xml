@@ -28,4 +28,13 @@
         <!--<item name="android:layout_marginTop">2.0dip</item>-->
     </style>
 
+
+    <style name="popWinInOutAnimation">
+        <item name="android:windowEnterAnimation">@anim/popwin_in</item>
+        <item name="android:windowExitAnimation">@anim/popwin_out</item>
+    </style>
+    <style name="scratchcardInOutAnimation">
+        <item name="android:windowEnterAnimation">@anim/scratchcardwin_in</item>
+        <item name="android:windowExitAnimation">@anim/scratchcardwin_out</item>
+    </style>
 </resources>
