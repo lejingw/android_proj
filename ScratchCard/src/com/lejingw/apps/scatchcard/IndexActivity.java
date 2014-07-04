@@ -1,16 +1,7 @@
 package com.lejingw.apps.scatchcard;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.*;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -21,10 +12,14 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.ImageView.ScaleType;
-import com.lejingw.apps.scatchcard.index.ListViewAdapter;
-import com.lejingw.apps.scatchcard.index.ScratchCardView;
-import com.lejingw.apps.scatchcard.index.ScratchData;
-import com.lejingw.apps.scatchcard.util.DisplayUtil;
+import com.lejingw.apps.scatchcard.index.ImageViewOnClickListener;
+import com.lejingw.apps.scatchcard.index.LunpanOnTouchListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class IndexActivity extends Activity {
     private ViewPager viewPager;
@@ -36,7 +31,6 @@ public class IndexActivity extends Activity {
     private List<ImageView> imageViewList;
     private List<View> dotViewList; // 图片标题正文的那些点
 
-    private int[] lunpanIdArr = new int[]{R.drawable.lunpan_0, R.drawable.lunpan_1, R.drawable.lunpan_2, R.drawable.lunpan_3, R.drawable.lunpan_4, R.drawable.lunpan_5};
     private int selectItemIndex = -1;
 
     private int currentItem = 0; // 当前图片的索引号
@@ -58,13 +52,13 @@ public class IndexActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
-        initImageAndDot();
 
+        initImageAndDot();
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new ViewPagerAdapter());// 设置填充ViewPager页面的适配器
         // 设置一个监听器，当ViewPager中的页面改变时调用
-        viewPager.setOnPageChangeListener(new MyPageChangeListener());
+        viewPager.setOnPageChangeListener(new ViewPageChangeListener());
 
         //返回按钮
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
@@ -77,8 +71,8 @@ public class IndexActivity extends Activity {
         });
 
         lunpanImageView = (ImageView) findViewById(R.id.lunpanImageButton);
-        lunpanImageView.setOnTouchListener(new LunpanOnTouchListener());
-        lunpanImageView.setOnClickListener(new ImageViewOnClickListener());
+        lunpanImageView.setOnTouchListener(new LunpanOnTouchListener(this));
+        lunpanImageView.setOnClickListener(new ImageViewOnClickListener(this));
     }
 
     private void initImageAndDot(){
@@ -140,7 +134,7 @@ public class IndexActivity extends Activity {
      *
      * @author Administrator
      */
-    private class MyPageChangeListener implements OnPageChangeListener {
+    private class ViewPageChangeListener implements OnPageChangeListener {
         private int oldPosition = 0;
 
         /**
@@ -214,236 +208,15 @@ public class IndexActivity extends Activity {
     }
 
 
-    private final class LunpanOnTouchListener implements View.OnTouchListener {
-        private int RADIUS_MIN_LENGTH = 60;
-        private int RADIUS_MAX_LENGTH = 200;
-        //中心点坐标-全局
-        private float centerPointX = -1;
-        private float centerPointY = -1;
-
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (centerPointX < 0) {
-                int[] location = new int[2];
-                view.getLocationOnScreen(location);
-
-                centerPointX = location[0] + view.getWidth() / 2;
-                centerPointY = location[1] + view.getHeight() / 2;
-
-                RADIUS_MIN_LENGTH = view.getWidth() / 2 / 4;
-                RADIUS_MAX_LENGTH = RADIUS_MIN_LENGTH * 3;
-            }
-            int clickX = (int) motionEvent.getRawX();
-            int clickY = (int) motionEvent.getRawY();
-
-            //检查是否在有效圆环内点击
-            if (!checkRadiusAvail(clickX, clickY)) {
-                selectItemIndex = -1;
-                return false;
-            }
-
-            switch (motionEvent.getAction()) {
-                //触摸屏幕时刻
-                case MotionEvent.ACTION_DOWN:
-                    int area = getDegreeArea(centerPointX, centerPointY, clickX, clickY);
-                    Log.d("area", "touch_area=" + area);
-                    selectItemIndex = area;
-                    lunpanImageView.setImageResource(lunpanIdArr[area + 1]);
-                    break;
-                //触摸并移动时刻
-                case MotionEvent.ACTION_MOVE:
-                    break;
-                //终止触摸时刻
-                case MotionEvent.ACTION_UP:
-                    lunpanImageView.setImageResource(lunpanIdArr[0]);
-                    break;
-            }
-            return false;
-        }
-
-        /**
-         * 检查是否在有效圆环内点击
-         */
-        private boolean checkRadiusAvail(int x, int y) {
-            //计算点击位置到轮盘中心点的距离
-            double length = Math.sqrt(Math.pow(centerPointX - x, 2) + Math.pow(centerPointY - y, 2));
-            if (length >= RADIUS_MIN_LENGTH && length <= RADIUS_MAX_LENGTH)
-                return true;
-            return false;
-        }
-
-        /**
-         * 获取点击角度所在的区域
-         */
-        private int getDegreeArea(double centerPointX, double centerPointY, double x, double y) {
-            int initDegree = new Double(Math.acos((x - centerPointX) / Math.sqrt(Math.pow(x - centerPointX, 2) + Math.pow(y - centerPointY, 2))) / Math.PI * 180).intValue();
-            int finalDegree = initDegree;
-            //在第四象限，或第一象限
-            if (y < centerPointY) {
-                finalDegree = 360 - finalDegree;
-            }
-            //调整，坐标系逆时针旋转90度
-            finalDegree += 90;
-            if (finalDegree > 360) {
-                finalDegree -= 360;
-            }
-            Log.d("degree", "init_degree=" + initDegree + " and final_degree=" + finalDegree);
-            return finalDegree / (360 / 5);
-        }
+    public void setSelectItemIndex(int selectItemIndex) {
+        this.selectItemIndex = selectItemIndex;
     }
 
+    public int getSelectItemIndex(){
+        return this.selectItemIndex;
+    }
 
-    private final class ImageViewOnClickListener implements View.OnClickListener {
-        private PopupWindow popWindow;
-        @Override
-        public void onClick(View view) {
-            if(selectItemIndex<0){
-                return ;
-            }
-            Log.d("msg", "==go detail use selectItemIndex=" + selectItemIndex);
-
-            LayoutInflater inflater = (LayoutInflater) IndexActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View popWinView = inflater.inflate(R.layout.index_popwin, null, false);
-
-            popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
-
-            popWinView.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popWindow.dismiss();//Close the Pop Window
-                }
-            });
-
-            ListView listView = (ListView) popWinView.findViewById(R.id.listView);
-            //自定义Adapter适配器将数据绑定到item显示控件上
-            //实现列表的显示
-            listView.setAdapter(new ListViewAdapter2());
-            //列表点击事件
-            listView.setOnItemClickListener(new ScratchCardClickListener(view));
-
-            popWindow.setAnimationStyle(R.style.popWinInOutAnimation);
-            popWindow.setFocusable(true);
-            popWindow.update();
-            popWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-        }
-
-        private final class ListViewAdapter2 extends BaseAdapter {
-            private int[] startScoreArr = new int[]{R.id.star_score1, R.id.star_score2, R.id.star_score3, R.id.star_score4, R.id.star_score5};
-
-            private Context context = IndexActivity.this;
-            private List<ScratchData> scratchDataList = ScratchData.createTempData();
-
-            @Override
-            public int getCount() {
-                return scratchDataList.size();
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return position;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                final View view = LayoutInflater.from(context).inflate(R.layout.index_popwin_item, null, false);
-//              LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//              final View view = inflater.inflate(R.layout.index_popwin_item, null, false);
-
-                ScratchData scratch = scratchDataList.get(position);
-                //业务图片
-                final ImageView scratchPicView = (ImageView) view.findViewById(R.id.scratchPicView);
-                scratchPicView.setImageResource(scratch.getResPicId());
-                final TextView nameTextView = (TextView) view.findViewById(R.id.name);
-                nameTextView.setText(scratch.getName());
-                final TextView topPrizeTextView = (TextView) view.findViewById(R.id.topPrize);
-                topPrizeTextView.setText("最高奖:" + scratch.getTopPrize() + "万");
-                final TextView backRateTextView = (TextView) view.findViewById(R.id.backRate);
-                backRateTextView.setText("返奖率:" + scratch.getBackRate() + "%");
-                //人气指数
-                int i = 0;
-                for (int j = scratch.getPopularityIndex() / 2; i < j; i++) {
-                    ImageView scoreImageView = (ImageView) view.findViewById(startScoreArr[i]);
-                    scoreImageView.setImageResource(R.drawable.bg_star_full);
-                }
-                if (scratch.getPopularityIndex() % 2 == 1) {
-                    ImageView scoreImageView = (ImageView) view.findViewById(startScoreArr[i]);
-                    scoreImageView.setImageResource(R.drawable.bg_star_half);
-                }
-                final ImageView showDetailView = (ImageView) view.findViewById(R.id.showDetailView);
-                final View popularityIndexLayout = view.findViewById(R.id.popularityIndexLayout);
-
-                showDetailView.setOnClickListener(new View.OnClickListener() {
-                    private boolean expendFlag = false;
-                    private TextView name = nameTextView;
-                    private ImageView scratchPic = scratchPicView;
-                    private TextView backRate = backRateTextView;
-                    private View popularityIndex = popularityIndexLayout;
-
-                    @Override
-                    public void onClick(View v) {
-                        expendFlag = !expendFlag;
-                        //更换展开，合起图片
-                        ((ImageView) v).setImageResource(expendFlag ? R.drawable.collipse11 : R.drawable.expand);
-                        Context ctx = v.getContext();
-                        if (expendFlag) {
-                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)DisplayUtil.dip2px(ctx, 150), (int)DisplayUtil.dip2px(ctx, 150*80/100));
-                            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-                            scratchPic.setLayoutParams(layoutParams);
-                        } else {
-                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams((int)DisplayUtil.dip2px(ctx, 100), (int)DisplayUtil.dip2px(ctx, 80));
-                            layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-                            scratchPic.setLayoutParams(layoutParams);
-                        }
-                        backRate.setVisibility(expendFlag ? View.VISIBLE : View.INVISIBLE);
-                        popularityIndex.setVisibility(expendFlag ? View.VISIBLE : View.INVISIBLE);
-                    }
-                });
-
-                //条目点击事件
-                //view.setOnClickListener(new BusinessItemClickListener());
-
-                return view;
-            }
-        }
-        //获取点击事件
-        private final class ScratchCardClickListener implements AdapterView.OnItemClickListener {
-            private View parentView;
-
-            public ScratchCardClickListener(View view) {
-                this.parentView = view;
-            }
-
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//              LayoutInflater inflater = (LayoutInflater) IndexActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//              final View popWinView = inflater.inflate(R.layout.index_scratchcard, null, false);
-
-                final View popWinView = LayoutInflater.from(IndexActivity.this).inflate(R.layout.index_scratchcard, null, false);
-
-
-                final PopupWindow popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
-
-                popWinView.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popWindow.dismiss();
-                    }
-                });
-
-                popWindow.setAnimationStyle(R.style.scratchcardInOutAnimation);
-                popWindow.setFocusable(true);
-                popWindow.update();
-                //popWindow.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);
-//                popWindow.showAtLocation((View) view.getParent(), Gravity.CENTER, 0, 0);
-                popWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-
-                LinearLayout scratchcardLayout = (LinearLayout) popWinView.findViewById(R.id.scratchcardLayout);
-                scratchcardLayout.addView(new ScratchCardView(scratchcardLayout.getContext()));
-            }
-        }
+    public void setLunpanImageView(int lunpanImageResId) {
+        this.lunpanImageView.setImageResource(lunpanImageResId);
     }
 }

@@ -30,6 +30,34 @@ public class StartActivity extends Activity {
 	// An ExecutorService that can schedule commands to run after a given delay, or to execute periodically.
 //	private ScheduledExecutorService scheduledExecutorService;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.start);
+
+        imageResId = new int[]{R.drawable.img_introduce1, R.drawable.img_introduce2, R.drawable.img_introduce3};
+        imageViews = new ArrayList<ImageView>();
+
+        // 初始化图片资源
+        for (int i = 0; i < imageResId.length; i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageResource(imageResId[i]);
+            imageView.setScaleType(ScaleType.CENTER_CROP);
+
+            if (i + 1 >= imageResId.length) {
+                imageView.setOnClickListener(lastImageClickListener);
+                imageView.setOnTouchListener(lastImageTouchListener);
+            }
+
+            imageViews.add(imageView);
+        }
+        viewPager = (ViewPager) findViewById(R.id.startViewPager);
+        // 设置填充ViewPager页面的适配器
+        viewPager.setAdapter(new MyAdapter());
+        // 设置一个监听器，当ViewPager中的页面改变时调用
+        viewPager.setOnPageChangeListener(new MyPageChangeListener());
+    }
+
 	// 切换当前显示的图片
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -101,35 +129,6 @@ public class StartActivity extends Activity {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		this.finish();
-	}
-
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.start);
-
-		imageResId = new int[]{R.drawable.img_introduce1, R.drawable.img_introduce2, R.drawable.img_introduce3};
-		imageViews = new ArrayList<ImageView>();
-
-		// 初始化图片资源
-		for (int i = 0; i < imageResId.length; i++) {
-			ImageView imageView = new ImageView(this);
-			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
-
-			if (i + 1 >= imageResId.length) {
-				imageView.setOnClickListener(lastImageClickListener);
-				imageView.setOnTouchListener(lastImageTouchListener);
-			}
-
-			imageViews.add(imageView);
-		}
-		viewPager = (ViewPager) findViewById(R.id.startViewPager);
-		// 设置填充ViewPager页面的适配器
-		viewPager.setAdapter(new MyAdapter());
-		// 设置一个监听器，当ViewPager中的页面改变时调用
-		viewPager.setOnPageChangeListener(new MyPageChangeListener());
 	}
 
 	@Override
