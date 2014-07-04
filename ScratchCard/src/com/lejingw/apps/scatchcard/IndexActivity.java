@@ -20,10 +20,12 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.ImageView.ScaleType;
+import com.lejingw.apps.scatchcard.index.ScratchData;
+import com.lejingw.apps.scatchcard.index.ListViewInnerAdapter;
 
 public class IndexActivity extends Activity {
-    private ViewPager viewPager; // android-support-v4中的滑动组件
-    private List<ImageView> imageViews; // 滑动的图片集合
+    private ViewPager viewPager;
+    private List<ImageView> imageViews;
 
     //	private String[] titles; // 图片标题
     private int[] imageResId; // 图片ID
@@ -37,41 +39,43 @@ public class IndexActivity extends Activity {
 
     private ImageView imageView;
 
-    // An ExecutorService that can schedule commands to run after a given delay,
-    // or to execute periodically.
+    // An ExecutorService that can schedule commands to run after a given delay, or to execute periodically.
     private ScheduledExecutorService scheduledExecutorService;
 
     // 切换当前显示的图片
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            viewPager.setCurrentItem(currentItem);// 切换当前显示的图片
+            // 切换当前显示的图片
+            viewPager.setCurrentItem(currentItem);
         }
     };
 
     private void showPopWindow(Context context, View parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View vPopWindow = inflater.inflate(R.layout.select_item_list, null, false);
+        final View popWinView = inflater.inflate(R.layout.index_popwin, null, false);
         //宽300 高300
 //        final PopupWindow popWindow = new PopupWindow(vPopWindow, 300, 300, true);
-		final PopupWindow popWindow = new PopupWindow(vPopWindow, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+		final PopupWindow popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
 
-		Button okButton = (Button) vPopWindow.findViewById(R.id.button1);
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(IndexActivity.this, "You click OK", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Button cancleButton = (Button) vPopWindow.findViewById(R.id.button2);
-        cancleButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton backButton = (ImageButton) popWinView.findViewById(R.id.btn_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popWindow.dismiss(); //Close the Pop Window
             }
         });
-        popWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 
+        initScratchList(popWinView);
+
+        popWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
+    }
+
+    private void initScratchList(View vPopWindow){
+        ListView listView = (ListView) vPopWindow.findViewById(R.id.listView);
+        //自定义Adapter适配器将数据绑定到item显示控件上
+        BaseAdapter adapter = new ListViewInnerAdapter(this, ScratchData.createTempData());
+        //实现列表的显示
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -95,7 +99,6 @@ public class IndexActivity extends Activity {
             imageView.setScaleType(ScaleType.CENTER_CROP);
             imageViews.add(imageView);
         }
-
 
         dots = new ArrayList<View>();
         dots.add(findViewById(R.id.v_dot0));
@@ -125,62 +128,83 @@ public class IndexActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(selectItemIndex<0){
+                    return ;
+                }
                 Log.d("msg", "==go detail use selectItemIndex=" + selectItemIndex);
                 IndexActivity.this.showPopWindow(IndexActivity.this, view);
             }
         });
-        imageView.setOnTouchListener(new View.OnTouchListener() {
-            private float centerPointX = -1;
-            private float centerPointY = -1;
+        imageView.setOnTouchListener(new LunpanTouchListener());
 
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (centerPointX < 0) {
-                    int[] location = new int[2];
-                    view.getLocationOnScreen(location);
-                    centerPointX = location[0] + view.getWidth() / 2;
-                    centerPointY = location[1] + view.getHeight() / 2;
-                }
+    }
 
-                switch (motionEvent.getAction()) {
-                    //触摸屏幕时刻
-                    case MotionEvent.ACTION_DOWN:
-                        int clickX = (int) motionEvent.getRawX();
-                        int clickY = (int) motionEvent.getRawY();
-                        int area = getDegreeArea(centerPointX, centerPointY, clickX, clickY);
-                        selectItemIndex = area;
-                        Log.d("area", "touch_area=" + area);
-                        imageView.setImageResource(lunpanIdArr[area + 1]);
-                        break;
-                    //触摸并移动时刻
-                    case MotionEvent.ACTION_MOVE:
-                        break;
-                    //终止触摸时刻
-                    case MotionEvent.ACTION_UP:
-                        imageView.setImageResource(lunpanIdArr[0]);
-                        break;
-                }
+    class LunpanTouchListener implements View.OnTouchListener {
+        private float centerPointX = -1;
+        private float centerPointY = -1;
+
+        private final int RADIUS_MIN_LENGTH = 60;
+        private final int RADIUS_MAX_LENGTH = 200;
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (centerPointX < 0) {
+                int[] location = new int[2];
+                view.getLocationOnScreen(location);
+                centerPointX = location[0] + view.getWidth() / 2;
+                centerPointY = location[1] + view.getHeight() / 2;
+            }
+            int clickX = (int) motionEvent.getRawX();
+            int clickY = (int) motionEvent.getRawY();
+
+            if (!checkRadiusAvail(clickX, clickY)) {
+                selectItemIndex = -1;
                 return false;
             }
 
-            private int getDegreeArea(double centerPointX, double centerPointY, double x, double y) {
-                int degree = new Double(Math.acos((x - centerPointX) / Math.sqrt(Math.pow(x - centerPointX, 2) + Math.pow(y - centerPointY, 2))) / Math.PI * 180).intValue();
-
-                Log.d("degree", "init_degree=" + degree);
-                //在第四象限，或第一象限
-                if (y < centerPointY) {
-                    degree = 360 - degree;
-                }
-                //调整，坐标系逆时针旋转90度
-                degree += 90;
-                if (degree > 360) {
-                    degree -= 360;
-                }
-                Log.d("degree", "final_degree=" + degree);
-                return degree / (360 / 5);
+            switch (motionEvent.getAction()) {
+                //触摸屏幕时刻
+                case MotionEvent.ACTION_DOWN:
+                    int area = getDegreeArea(centerPointX, centerPointY, clickX, clickY);
+                    selectItemIndex = area;
+                    Log.d("area", "touch_area=" + area);
+                    imageView.setImageResource(lunpanIdArr[area + 1]);
+                    break;
+                //触摸并移动时刻
+                case MotionEvent.ACTION_MOVE:
+                    break;
+                //终止触摸时刻
+                case MotionEvent.ACTION_UP:
+                    imageView.setImageResource(lunpanIdArr[0]);
+                    break;
             }
-        });
+            return false;
+        }
 
+        private boolean checkRadiusAvail(int x, int y) {
+            //计算点击位置到轮盘中心点的距离
+            double length = Math.sqrt(Math.pow(centerPointX - x, 2) + Math.pow(centerPointY - y, 2));
+            if (length >= RADIUS_MIN_LENGTH && length <= RADIUS_MAX_LENGTH)
+                return true;
+            return false;
+        }
+
+        private int getDegreeArea(double centerPointX, double centerPointY, double x, double y) {
+            int degree = new Double(Math.acos((x - centerPointX) / Math.sqrt(Math.pow(x - centerPointX, 2) + Math.pow(y - centerPointY, 2))) / Math.PI * 180).intValue();
+
+            Log.d("degree", "init_degree=" + degree);
+            //在第四象限，或第一象限
+            if (y < centerPointY) {
+                degree = 360 - degree;
+            }
+            //调整，坐标系逆时针旋转90度
+            degree += 90;
+            if (degree > 360) {
+                degree -= 360;
+            }
+            Log.d("degree", "final_degree=" + degree);
+            return degree / (360 / 5);
+        }
     }
 
     @Override
@@ -207,7 +231,6 @@ public class IndexActivity extends Activity {
 
         public void run() {
             synchronized (viewPager) {
-                //System.out.println("currentItem: " + currentItem);
                 currentItem = (currentItem + 1) % imageViews.size();
                 handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
             }

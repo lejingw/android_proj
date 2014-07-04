@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-public class MyActivity extends Activity {
+public class PopWinActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
@@ -23,7 +23,7 @@ public class MyActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopWindow(MyActivity.this, button);
+                showPopWindow(PopWinActivity.this, button);
             }
         });
     }
@@ -38,7 +38,7 @@ public class MyActivity extends Activity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MyActivity.this, "You click OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PopWinActivity.this, "You click OK", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -49,7 +49,20 @@ public class MyActivity extends Activity {
                 popWindow.dismiss(); //Close the Pop Window
             }
         });
-        popWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
 
+
+
+        //PopupWindow window = new PopupWindow(v, 500,260);
+
+        //设置整个popupwindow的样式。
+        //window.setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_corners_pop));
+        //使窗口里面的空间显示其相应的效果，比较点击button时背景颜色改变。
+        //如果为false点击相关的空间表面上没有反应，但事件是可以监听到的。
+        //listview的话就没有了作用。
+        popWindow.setAnimationStyle(R.style.AnimationPreview);
+        popWindow.setFocusable(true);
+        popWindow.update();
+//        popWindow.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);
+        popWindow.showAtLocation(parent, Gravity.CENTER, 0, 0);
     }
 }

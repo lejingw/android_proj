@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,8 +26,7 @@ public class StartActivity extends Activity {
 	private int[] imageResId; // 图片ID
 	private int currentItem = 0; // 当前图片的索引号
 
-	// An ExecutorService that can schedule commands to run after a given delay,
-	// or to execute periodically.
+	// An ExecutorService that can schedule commands to run after a given delay, or to execute periodically.
 //	private ScheduledExecutorService scheduledExecutorService;
 
 	// 切换当前显示的图片
@@ -40,7 +40,7 @@ public class StartActivity extends Activity {
 	private View.OnClickListener lastImageClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			System.out.println("click=" + currentItem + " x:" + v.getX() + " y:" + v.getY());
+            Log.d("msg", "click=" + currentItem + " x:" + v.getX() + " y:" + v.getY());
 		}
 	};
 
@@ -48,33 +48,40 @@ public class StartActivity extends Activity {
 		private float touchStartX = 0;
 		private float touchStartY = 0;
 		private final float CLICK_STEP_LENGTH = 20;
-		private final float CLICK_X_MIN = 200;
-		private final float CLICK_X_MAX = 300;
-		private final float CLICK_Y_MIN = 800;
-		private final float CLICK_Y_MAX = 850;
+
+        private final float CLICK_X_MIN = 160;
+        private final float CLICK_X_LENGTH = 160;
+
+        private float CLICK_Y_MIN = -1;
+        private final float CLICK_Y_LENGTH = 160;
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			int[] origin = new int[2];
+            if(CLICK_Y_MIN<0){
+                DisplayMetrics dm  = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                CLICK_Y_MIN = dm.heightPixels - CLICK_Y_LENGTH;
+
+                Log.d("msg", "touch=" + currentItem + " x:" + dm.widthPixels + " y:" + CLICK_Y_MIN);
+            }
 			switch (event.getAction()) {
 				//触摸屏幕时刻
 				case MotionEvent.ACTION_DOWN:
-					touchStartX = event.getX();
-					touchStartY = event.getY();
+					touchStartX = event.getRawX();
+					touchStartY = event.getRawY();
 					break;
 				//触摸并移动时刻
 				case MotionEvent.ACTION_MOVE:
 					break;
 				//终止触摸时刻
 				case MotionEvent.ACTION_UP:
-                    Log.d("msg", "========xxxxxxxxxxx===========");
-					showXY(event.getX(), event.getY());
+                    Log.d("msg", "touch=" + currentItem + " x:" + event.getX() + " y:" + event.getY());
 					//判断为点击事件
 					if (Math.abs(touchStartX - event.getX()) < CLICK_STEP_LENGTH && Math.abs(touchStartY - event.getY()) < CLICK_STEP_LENGTH) {
-						int clickX = (int)(touchStartX + event.getX())/2;
-						int clickY = (int)(touchStartY + event.getY())/2;
+						int clickX = (int)(touchStartX + event.getRawX())/2;
+						int clickY = (int)(touchStartY + event.getRawY())/2;
 						//判断为有效点击
-						if(clickX>=CLICK_X_MIN && clickX<=CLICK_X_MAX && clickY>=CLICK_Y_MIN && clickY<=CLICK_Y_MAX){
+						if(clickX>=CLICK_X_MIN && clickX<=(CLICK_X_MIN+CLICK_X_LENGTH) && clickY>=CLICK_Y_MIN && clickY<=(CLICK_Y_MIN+CLICK_Y_LENGTH)){
 							goToMainActiviti();
 							return false;
 						}
@@ -85,15 +92,11 @@ public class StartActivity extends Activity {
 		}
 	};
 	private void goToMainActiviti(){
-		Log.d("msg", "========goToMainActiviti===========");
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		this.finish();
 	}
 
-	private void showXY(float x, float y) {
-		Log.d("msg", "touch=" + currentItem + " x:" + x + " y:" + y);
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -146,7 +149,6 @@ public class StartActivity extends Activity {
 	private class ScrollTask implements Runnable {
 		public void run() {
 			synchronized (viewPager) {
-				//System.out.println("currentItem: " + currentItem);
 				currentItem = (currentItem + 1) % imageViews.size();
 				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
 			}
