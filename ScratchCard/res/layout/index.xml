@@ -48,7 +48,7 @@
 		</LinearLayout>
 	</FrameLayout>
 
-	<TextView android:layout_width="fill_parent"
+	<TextView android:layout_width="wrap_content"
 			  android:layout_height="wrap_content"
               android:layout_marginTop="8dp"
               android:layout_marginBottom="8dp"
@@ -61,7 +61,7 @@
 			android:id="@+id/lunpanImageButton"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:scaleType="centerInside"
+			android:scaleType="fitEnd"
 			android:background="#00000000"
 			android:src="@drawable/lunpan_0"/>
 </LinearLayout>

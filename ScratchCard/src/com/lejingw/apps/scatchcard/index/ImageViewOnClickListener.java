@@ -164,8 +164,6 @@ public class ImageViewOnClickListener implements View.OnClickListener {
                 popWindow.setAnimationStyle(R.style.scratchcardInOutAnimation);
                 popWindow.setFocusable(true);
                 popWindow.update();
-                //popWindow.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);
-//                popWindow.showAtLocation((View) view.getParent(), Gravity.CENTER, 0, 0);
                 popWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
 
                 LinearLayout scratchcardLayout = (LinearLayout) popWinView.findViewById(R.id.scratchcardLayout);

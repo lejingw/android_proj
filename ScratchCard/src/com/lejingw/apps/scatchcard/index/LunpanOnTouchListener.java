@@ -37,19 +37,19 @@ public class LunpanOnTouchListener implements View.OnTouchListener {
         int clickX = (int) motionEvent.getRawX();
         int clickY = (int) motionEvent.getRawY();
 
-        //检查是否在有效圆环内点击
-        if (!checkRadiusAvail(clickX, clickY)) {
-            indexActivity.setSelectItemIndex(-1);
-            return false;
-        }
 
         switch (motionEvent.getAction()) {
             //触摸屏幕时刻
             case MotionEvent.ACTION_DOWN:
-                int area = getDegreeArea(centerPointX, centerPointY, clickX, clickY);
-                Log.d("area", "touch_area=" + area);
-                indexActivity.setSelectItemIndex(area);
-                indexActivity.setLunpanImageView(lunpanIdArr[area + 1]);
+                //检查是否在有效圆环内点击
+                if (!checkRadiusAvail(clickX, clickY)) {
+                    indexActivity.setSelectItemIndex(-1);
+                }else{
+                    int area = getDegreeArea(centerPointX, centerPointY, clickX, clickY);
+                    Log.d("area", "touch_area=" + area);
+                    indexActivity.setSelectItemIndex(area);
+                    indexActivity.setLunpanImageView(lunpanIdArr[area + 1]);
+                }
                 break;
             //触摸并移动时刻
             case MotionEvent.ACTION_MOVE:

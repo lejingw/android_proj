@@ -21,10 +21,9 @@ import java.util.List;
 
 public class StartActivity extends Activity {
 	private ViewPager viewPager; // android-support-v4中的滑动组件
-	private View toMainView;
 
-	private List<ImageView> imageViews; // 滑动的图片集合
-	private int[] imageResId; // 图片ID
+	private List<ImageView> imageViews = new ArrayList<ImageView>(); // 滑动的图片集合
+	private int[] imageResId = new int[]{R.drawable.img_introduce1, R.drawable.img_introduce2, R.drawable.img_introduce3}; // 图片ID
 	private int currentItem = 0; // 当前图片的索引号
 
 	// An ExecutorService that can schedule commands to run after a given delay, or to execute periodically.
@@ -35,14 +34,11 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
 
-        imageResId = new int[]{R.drawable.img_introduce1, R.drawable.img_introduce2, R.drawable.img_introduce3};
-        imageViews = new ArrayList<ImageView>();
-
         // 初始化图片资源
         for (int i = 0; i < imageResId.length; i++) {
             ImageView imageView = new ImageView(this);
             imageView.setImageResource(imageResId[i]);
-            imageView.setScaleType(ScaleType.CENTER_CROP);
+            imageView.setScaleType(ScaleType.FIT_XY);
 
             if (i + 1 >= imageResId.length) {
                 imageView.setOnClickListener(lastImageClickListener);

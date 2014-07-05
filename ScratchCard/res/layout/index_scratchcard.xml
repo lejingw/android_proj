@@ -7,17 +7,22 @@
 
     <include layout="@layout/title_bar"/>
 
-
     <LinearLayout android:id="@+id/scratchcardLayout"
                   android:layout_width="fill_parent"
-                  android:layout_height="fill_parent"
+                  android:layout_height="wrap_content"
                   android:orientation="horizontal">
 
-        <!--<ImageView android:layout_width="fill_parent"
+        <!--
+                  android:layout_marginTop="-40dp"
+        <FrameLayout android:id="@+id/scratchcardLayout"
+                     android:layout_width="fill_parent"
+                     android:layout_height="fill_parent">
+        <ImageView android:layout_width="fill_parent"
                    android:layout_height="fill_parent"
                    android:scaleType="fitXY"
-                   android:src="@drawable/img_stone_main"/>-->
-
+                   android:src="@drawable/img_stone_main"/>
+        </FrameLayout>
+    -->
     </LinearLayout>
 
     <LinearLayout android:layout_width="fill_parent"
