@@ -95,9 +95,6 @@ public class IndexActivity extends Activity {
 //		currentTitleTextView.setText(titles[0]);//
     }
 
-
-
-
     @Override
     protected void onStart() {
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
@@ -119,7 +116,6 @@ public class IndexActivity extends Activity {
      * @author Administrator
      */
     private class ScrollTask implements Runnable {
-
         public void run() {
             synchronized (viewPager) {
                 currentItem = (currentItem + 1) % imageViewList.size();
@@ -218,5 +214,13 @@ public class IndexActivity extends Activity {
 
     public void setLunpanImageView(int lunpanImageResId) {
         this.lunpanImageView.setImageResource(lunpanImageResId);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }

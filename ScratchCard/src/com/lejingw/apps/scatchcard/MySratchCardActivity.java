@@ -1,6 +1,7 @@
 package com.lejingw.apps.scatchcard;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -17,4 +18,10 @@ public class MySratchCardActivity extends Activity {
 		setContentView(tv);
 	}
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, StartActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
 }

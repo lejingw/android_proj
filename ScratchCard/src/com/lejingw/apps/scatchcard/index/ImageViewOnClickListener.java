@@ -1,11 +1,9 @@
 package com.lejingw.apps.scatchcard.index;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import com.lejingw.apps.scatchcard.IndexActivity;
 import com.lejingw.apps.scatchcard.R;
@@ -29,8 +27,26 @@ public class ImageViewOnClickListener implements View.OnClickListener {
 
             LayoutInflater inflater = (LayoutInflater) indexActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View popWinView = inflater.inflate(R.layout.index_popwin, null, false);
-
-            popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+            /**
+             * 为了响应返回实体键按钮：
+             * 1、focusable设置为true
+             * 2、popWindow.setBackgroundDrawable(new BitmapDrawable());
+             * 3、View.setOnKeyListener
+             */
+            popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+            popWindow.setBackgroundDrawable(new BitmapDrawable());
+            popWinView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+                    if (arg1 == KeyEvent.KEYCODE_BACK) {
+                        if (popWindow != null) {
+                            popWindow.dismiss();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
 
             popWinView.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,11 +165,22 @@ public class ImageViewOnClickListener implements View.OnClickListener {
 //              LayoutInflater inflater = (LayoutInflater) IndexActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //              final View popWinView = inflater.inflate(R.layout.index_scratchcard, null, false);
 
-                final View popWinView = LayoutInflater.from(indexActivity).inflate(R.layout.index_scratchcard, null, false);
-
+                final View popWinView = LayoutInflater.from(indexActivity).inflate(R.layout.index_scratchcard, null, true);
 
                 final PopupWindow popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
-
+                popWindow.setBackgroundDrawable(new BitmapDrawable());
+                popWinView.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+                        if (arg1 == KeyEvent.KEYCODE_BACK) {
+                            if (popWindow != null) {
+                                popWindow.dismiss();
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
                 popWinView.findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

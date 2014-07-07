@@ -142,20 +142,31 @@ public class StartActivity extends Activity {
 		super.onStop();
 	}
 
+    @Override
+    public void onBackPressed() {
+        currentItem = (currentItem - 1) % imageViews.size();
+        Log.d("msg", "currentItem = " + currentItem);
+        if(currentItem<0){
+            finish();
+        }else{
+            viewPager.setCurrentItem(currentItem);
+        }
+    }
+
 	/**
 	 * 换行切换任务
 	 *
 	 * @author Administrator
 	 */
-	private class ScrollTask implements Runnable {
-		public void run() {
-			synchronized (viewPager) {
-				currentItem = (currentItem + 1) % imageViews.size();
-				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
-			}
-		}
-
-	}
+//	private class ScrollTask implements Runnable {
+//		public void run() {
+//			synchronized (viewPager) {
+//				currentItem = (currentItem + 1) % imageViews.size();
+//				handler.obtainMessage().sendToTarget(); // 通过Handler切换图片
+//			}
+//		}
+//
+//	}
 
 	/**
 	 * 当ViewPager中页面的状态发生改变时调用
