@@ -14,5 +14,15 @@
 			android:id="@+id/showWinBtn"
 			android:text="show window"/>
 
+	<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/showDlgBtn"
+			android:text="showDlgBtn"/>
+
+	<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/showAlertDlgBtn"
+			android:text="showAlertDlgBtn"/>
+
 </LinearLayout>
 

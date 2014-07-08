@@ -30,14 +30,16 @@
                   android:layout_marginTop="-40dp"
                   android:orientation="horizontal">
 
-        <Button android:layout_width="wrap_content"
+        <Button android:id="@+id/tryScratchBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="免费试刮"
                 android:textColor="@android:color/white"
                 android:background="@android:color/darker_gray"
                 android:layout_weight="1"/>
 
-        <Button android:layout_width="wrap_content"
+        <Button android:id="@+id/buyScratchCardBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="购买卡片"
                 android:textColor="@android:color/white"

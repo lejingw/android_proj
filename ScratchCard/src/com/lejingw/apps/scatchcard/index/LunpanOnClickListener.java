@@ -7,10 +7,10 @@ import android.widget.*;
 import com.lejingw.apps.scatchcard.IndexActivity;
 import com.lejingw.apps.scatchcard.R;
 
-public class ImageViewOnClickListener implements View.OnClickListener {
+public class LunpanOnClickListener implements View.OnClickListener {
         private IndexActivity indexActivity;
 
-        public  ImageViewOnClickListener(IndexActivity indexActivity){
+        public LunpanOnClickListener(IndexActivity indexActivity){
             this.indexActivity = indexActivity;
         }
 
@@ -20,7 +20,6 @@ public class ImageViewOnClickListener implements View.OnClickListener {
             if(indexActivity.getSelectItemIndex()<0){
                 return ;
             }
-
             LayoutInflater inflater = (LayoutInflater) indexActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View popWinView = inflater.inflate(R.layout.index_popwin, null, false);
             /**
@@ -77,6 +76,7 @@ public class ImageViewOnClickListener implements View.OnClickListener {
 //              final View popWinView = inflater.inflate(R.layout.index_scratchcard, null, false);
 
                 final View popWinView = LayoutInflater.from(indexActivity).inflate(R.layout.index_scratchcard, null, true);
+                ScratchData scratchData = (ScratchData)view.getTag();
 
                 final PopupWindow popWindow = new PopupWindow(popWinView, AbsListView.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
                 popWindow.setBackgroundDrawable(new BitmapDrawable());
@@ -105,7 +105,7 @@ public class ImageViewOnClickListener implements View.OnClickListener {
                 popWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
 
                 LinearLayout scratchcardLayout = (LinearLayout) popWinView.findViewById(R.id.scratchcardLayout);
-                scratchcardLayout.addView(new ScratchCardView(scratchcardLayout.getContext()));
+                scratchcardLayout.addView(new ScratchCardView(scratchcardLayout.getContext(), popWinView, popWindow, scratchData, i == 0));
             }
         }
     }

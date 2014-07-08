@@ -1,29 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScratchDataSet>
-	<ScratchData id="1" name="你好">
+    <!--2-->
+    <ScratchData id="1" type="4" name="国泰民安" resPicName="guotaiminan_icon.jpg" bgPicName="guotaiminan_bg.png" topPrize="30" backRate="65" popularityIndex="7">
+        <ScratchCover picName="guotaiminan_fg.png" canvasStartXRate="0" canvasStartYRate="0.18256131"
+                      canvasStartX="0" canvasStartY="134" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="2" type="4" name="龙飞凤舞" resPicName="longfeifengwu_icon.jpg" bgPicName="longfeifengwu_bg.png" topPrize="10" backRate="65" popularityIndex="7">
+        <ScratchCover picName="longfeifengwu_fg.png" canvasStartXRate="0.56666666" canvasStartYRate="0.08446866"
+                canvasStartX="272" canvasStartY="62" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="3" type="4" name="闹新春" resPicName="naoxinchun_icon.jpg" bgPicName="naoxinchun_bg.png" topPrize="10" backRate="65" popularityIndex="7">
+        <ScratchCover picName="naoxinchun_fg.png" canvasStartXRate="0.5708333" canvasStartYRate="0.10081744"
+                      canvasStartX="274" canvasStartY="74" canvasWidth="0.8" canvasHeight="1.06"/>
+    </ScratchData>
 
-		<name>撒旦法</name>
-		<type>1</type>
-		<resPicId></resPicId>
-		<topPrize></topPrize>
-		<backRate></backRate>
-		<popularityIndex></popularityIndex>
-		<areas>
-			<area>a1</area>
-			<area>a2</area>
-		</areas>
-	</ScratchData>
+    <!--3-->
+    <ScratchData id="4" type="0" name="永结同心" resPicName="yongjietongxin_icon.jpg" bgPicName="yongjietongxin_bg.png" topPrize="10" backRate="65" popularityIndex="7">
+        <ScratchCover picName="yongjietongxin_fg.png" canvasStartXRate="0.058333334" canvasStartYRate="0.48228884"
+                      canvasStartX="28" canvasStartY="354" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="5" type="0" name="大吉大利" resPicName="dajidali_icon.jpg" bgPicName="dajidali_bg.png" topPrize="20" backRate="65" popularityIndex="7">
+        <ScratchCover picName="dajidali_fg.png" canvasStartXRate="0" canvasStartYRate="0.4250681"
+                      canvasStartX="0" canvasStartY="312" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="6" type="0" name="金龙贺岁" resPicName="jinlonghesui_icon.jpg" bgPicName="jinlonghesui_bg.png" topPrize="30" backRate="65" popularityIndex="7">
+        <ScratchCover picName="jinlonghesui_fg.png" canvasStartXRate="0" canvasStartYRate="0.13623978"
+                      canvasStartX="0" canvasStartY="100" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
 
-	<ScratchData id="2" name="你好2">
-		<name>撒旦法2</name>
-		<type>1</type>
-		<resPicId></resPicId>
-		<topPrize></topPrize>
-		<backRate></backRate>
-		<popularityIndex></popularityIndex>
-		<areas>
-			<area>b1</area>
-			<area>b2</area>
-		</areas>
-	</ScratchData>
+
+    <!--５-->
+    <ScratchData id="7" type="3" name="金色土地" resPicName="jinsetudi_icon.jpg" bgPicName="jinsetudi_bg.png" topPrize="15" backRate="65" popularityIndex="7">
+        <ScratchCover picName="jinsetudi_fg.png" canvasStartXRate="0.075" canvasStartYRate="0.3133515"
+                      canvasStartX="36" canvasStartY="230" canvasWidth="0.75" canvasHeight="1.0"/>
+    </ScratchData>
+    <ScratchData id="8" type="3" name="招财纳福" resPicName="zhaocainafu_icon.jpg" bgPicName="zhaocainafu_bg.png" topPrize="15" backRate="65" popularityIndex="7">
+        <ScratchCover picName="zhaocainafu_fg.png" canvasStartXRate="0" canvasStartYRate="0.08719346"
+                      canvasStartX="0" canvasStartY="64" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="9" type="3" name="发奖金" resPicName="fajiangjin_icon.jpg" bgPicName="fajiangjin_bg.png" topPrize="12" backRate="65" popularityIndex="7">
+        <ScratchCover picName="fajiangjin_fg.png" canvasStartXRate="0" canvasStartYRate="0.26975477"
+                      canvasStartX="0" canvasStartY="198" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+
+
+    <!--10-->
+    <ScratchData id="10" type="1" name="宝石奇缘" resPicName="baoshiqiyuan_icon.jpg" bgPicName="baoshiqiyuan_bg.png" topPrize="25" backRate="65" popularityIndex="7">
+        <ScratchCover picName="baoshiqiyuan_fg.png" canvasStartXRate="0.29375" canvasStartYRate="0.036784742"
+                      canvasStartX="141" canvasStartY="27" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="11" type="1" name="中国节" resPicName="zhongguojie_icon.jpg" bgPicName="zhongguojie_bg.png" topPrize="30" backRate="65" popularityIndex="7">
+        <ScratchCover picName="zhongguojie_fg.png" canvasStartXRate="0.054166667" canvasStartYRate="0.373297"
+                      canvasStartX="26" canvasStartY="274" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="12" type="1" name="花好月圆" resPicName="huahaoyueyuan_icon.jpg" bgPicName="huahaoyueyuan_bg.png" topPrize="25" backRate="65" popularityIndex="7">
+        <ScratchCover picName="huahaoyueyuan_fg.png" canvasStartXRate="0" canvasStartYRate="0.13079019"
+                      canvasStartX="0" canvasStartY="96" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+
+    <!--20-->
+    <ScratchData id="13" type="2" name="倍给力" resPicName="beigeili_icon.jpg" bgPicName="beigeili_bg.png" topPrize="50" backRate="65" popularityIndex="7">
+        <ScratchCover picName="beigeili_fg.png" canvasStartXRate="0" canvasStartYRate="0.06811989"
+                      canvasStartX="0" canvasStartY="50" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="14" type="2" name="太极" resPicName="taiji_icon.jpg" bgPicName="taiji_bg.png" topPrize="20" backRate="65" popularityIndex="7">
+        <ScratchCover picName="taiji_fg.png" canvasStartXRate="0.1375" canvasStartYRate="0.12806539"
+                      canvasStartX="66" canvasStartY="94" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
+    <ScratchData id="15" type="2" name="中国节" resPicName="zhongguojie_icon.jpg" bgPicName="zhongguojie_bg.png" topPrize="30" backRate="65" popularityIndex="7">
+        <ScratchCover picName="zhongguojie_fg.png" canvasStartXRate="0.054166667" canvasStartYRate="0.38964579"
+                      canvasStartX="26" canvasStartY="286" canvasWidth="0.75" canvasHeight="0.987"/>
+    </ScratchData>
 </ScratchDataSet>

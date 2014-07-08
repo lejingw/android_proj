@@ -1,6 +1,7 @@
 package com.lejingw.apps.scatchcard;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import com.lejingw.apps.scatchcard.util.CustomDialog;
 import com.lejingw.apps.scatchcard.util.ImageUtil;
 
 import java.util.ArrayList;

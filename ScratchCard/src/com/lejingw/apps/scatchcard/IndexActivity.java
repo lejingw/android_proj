@@ -12,11 +12,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.*;
 import android.widget.*;
 import android.widget.ImageView.ScaleType;
-import com.lejingw.apps.scatchcard.index.ImageViewOnClickListener;
+import com.lejingw.apps.scatchcard.index.LunpanOnClickListener;
 import com.lejingw.apps.scatchcard.index.LunpanOnTouchListener;
 import com.lejingw.apps.scatchcard.util.ImageUtil;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -74,10 +73,14 @@ public class IndexActivity extends Activity {
 
         lunpanImageView = (ImageView) findViewById(R.id.lunpanImageButton);
         lunpanImageView.setOnTouchListener(new LunpanOnTouchListener(this));
-        lunpanImageView.setOnClickListener(new ImageViewOnClickListener(this));
+        lunpanImageView.setOnClickListener(new LunpanOnClickListener(this));
     }
 
     private void initImageAndDot(){
+//        int resID = getResources().getIdentifier("img_introduce3", "drawable", "com.lejingw.apps.scatchcard");
+//        int id = R.drawable.img_introduce3;
+//        InputStream inputStream = getAssets().open("type4/scratch1.jpg");
+
         imageViewList = new ArrayList<ImageView>();
         // 初始化图片资源
         for (int i = 0; i < imageResIdArr.length; i++) {

@@ -1,18 +1,12 @@
 package com.lejingw.apps.scatchcard.index;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.Log;
-import com.lejingw.apps.scatchcard.R;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,22 +14,16 @@ import java.util.List;
 
 public class ScratchData {
     private String id;
-    private int resPicId;
+    private int type;
+    private String resPicName;
+    private String bgPicName;
     private String name;
     private int topPrize;
     private int backRate;
     private int popularityIndex;
+    private ScratchCover scratchCover;
 
     public ScratchData(){}
-
-    public ScratchData(String id, int resPicId, String name, int topPrize, int backRate, int popularityIndex) {
-        this.id = id;
-        this.resPicId = resPicId;
-        this.name = name;
-        this.topPrize = topPrize;
-        this.backRate = backRate;
-        this.popularityIndex = popularityIndex;
-    }
 
     public String getId() {
         return id;
@@ -45,12 +33,28 @@ public class ScratchData {
         this.id = id;
     }
 
-    public int getResPicId() {
-        return resPicId;
+    public int getType() {
+        return type;
     }
 
-    public void setResPicId(int resPicId) {
-        this.resPicId = resPicId;
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getResPicName() {
+        return resPicName;
+    }
+
+    public void setResPicName(String resPicName) {
+        this.resPicName = resPicName;
+    }
+
+    public String getBgPicName() {
+        return bgPicName;
+    }
+
+    public void setBgPicName(String bgPicName) {
+        this.bgPicName = bgPicName;
     }
 
     public String getName() {
@@ -84,37 +88,24 @@ public class ScratchData {
     public void setPopularityIndex(int popularityIndex) {
         this.popularityIndex = popularityIndex;
     }
-
-    public static List<ScratchData> createTempData() {
-        String[] ids = new String[]{"1", "2", "3", "4", "5", "6", "7"};
-        int[] resPicIds = new int[]{R.drawable.scratch1, R.drawable.scratch2, R.drawable.scratch3, R.drawable.scratch4
-                , R.drawable.scratch5, R.drawable.scratch6, R.drawable.scratch7};
-        String[] names = new String[]{"宝石奇缘", "马到成功", "龙腾盛世", "探险家", "巅峰对决", "花好月圆", "夺宝嘉年华"};
-        int[] topPrizes = new int[]{10, 20, 30, 40, 50, 60, 70};
-        int[] backRates = new int[]{60, 70, 75, 80, 85, 90, 95};
-        int[] popularityIndexs = new int[]{10, 9, 8, 5, 2, 1, 0};
-
-        List<ScratchData> data = new ArrayList<ScratchData>();
-
-        for (int i = 0; i < ids.length; i++) {
-            data.add(new ScratchData(ids[i], resPicIds[i], names[i], topPrizes[i], backRates[i], popularityIndexs[i]));
-        }
-        return data;
+    public ScratchCover getScratchCover() {
+        return scratchCover;
     }
 
-    public static void main(String[] args) {
+    public void setScratchCover(ScratchCover scratchCover) {
+        this.scratchCover = scratchCover;
     }
 
     /**
      * 参数fileName：为xml文档路径
      */
-    public static List<ScratchData> getRiversFromXml(Context context, String fileName) {
-        List<ScratchData> rivers = new ArrayList<ScratchData>();
+    public static List<ScratchData> getScratchDataFromXml(Context context) {
+        List<ScratchData> scratchDataList = new ArrayList<ScratchData>();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         InputStream inputStream = null;
         try {
             //找到xml，并加载文档
-            inputStream = context.getResources().getAssets().open(fileName);
+            inputStream = context.getResources().getAssets().open("scratch_list.xml");
             Document document = factory.newDocumentBuilder().parse(inputStream);
 
             Element root = document.getDocumentElement();
@@ -123,8 +114,10 @@ public class ScratchData {
             for (int i = 0; i < scratchDataNodeList.getLength(); i++) {
                 Element scratchDataElement = (Element) (scratchDataNodeList.item(i));
                 String id = scratchDataElement.getAttribute("id");
+                String type = scratchDataElement.getAttribute("type");
                 String name = scratchDataElement.getAttribute("name");
                 String resPicName = scratchDataElement.getAttribute("resPicName");
+                String bgPicName = scratchDataElement.getAttribute("bgPicName");
                 String topPrize = scratchDataElement.getAttribute("topPrize");
                 String backRate = scratchDataElement.getAttribute("backRate");
                 String popularityIndex = scratchDataElement.getAttribute("popularityIndex");
@@ -132,18 +125,39 @@ public class ScratchData {
                 Log.d("msg", scratchDataElement.getAttribute("name"));
 
 
-                int resPicId = context.getResources().getIdentifier(resPicName, "drawable", null);
-                ScratchData scratchData = new ScratchData(id, resPicId, name, Integer.parseInt(topPrize), Integer.parseInt(backRate), Integer.parseInt(popularityIndex));
+                int resPicId = context.getResources().getIdentifier(resPicName, "drawable", "com.lejingw.apps.scatchcard");
 
-                NodeList areaNodeList = scratchDataElement.getElementsByTagName("areas");
-                for (int j = 0; j < areaNodeList.getLength(); j++) {
-                    Element areaElement = (Element) areaNodeList.item(j);
-                    Log.d("msg", areaElement.getTextContent());
-                }
-//                scratchData.setName(riverElement.getAttribute(NAME));
-//                river.setIntroduction(introduction.getFirstChild().getNodeValue());
+                ScratchData scratchData = new ScratchData();
+                //id, resPicId, name, Integer.parseInt(topPrize), Integer.parseInt(backRate), Integer.parseInt(popularityIndex));
+                scratchData.setId(id);
+                scratchData.setName(name);
+                scratchData.setType(Integer.parseInt(type));
+                scratchData.setResPicName("type" + type + "/" + resPicName);
+                scratchData.setBgPicName("type" + type + "/" + bgPicName);
+                scratchData.setTopPrize(Integer.parseInt(topPrize));
+                scratchData.setBackRate(Integer.parseInt(backRate));
+                scratchData.setPopularityIndex(Integer.parseInt(popularityIndex));
 
-                rivers.add(scratchData);
+                NodeList scratchCoverNodeList = scratchDataElement.getElementsByTagName("ScratchCover");
+                Element scratchCoverElement = (Element) scratchCoverNodeList.item(0);
+                String picName = "type" + type + "/" + scratchCoverElement.getAttribute("picName");
+                float canvasStartXRate = Float.parseFloat(scratchCoverElement.getAttribute("canvasStartXRate"));
+                float canvasStartYRate = Float.parseFloat(scratchCoverElement.getAttribute("canvasStartYRate"));
+                int canvasStartX = Integer.parseInt(scratchCoverElement.getAttribute("canvasStartX"));
+                int canvasStartY = Integer.parseInt(scratchCoverElement.getAttribute("canvasStartY"));
+                float canvasWidth = Float.parseFloat(scratchCoverElement.getAttribute("canvasWidth"));
+                float canvasHeight = Float.parseFloat(scratchCoverElement.getAttribute("canvasHeight"));
+
+                ScratchCover scratchCover1 = new ScratchCover(picName, canvasStartXRate, canvasStartYRate, canvasStartX, canvasStartY, canvasWidth, canvasHeight);
+                scratchData.setScratchCover(scratchCover1);
+
+//                NodeList areaNodeList = scratchDataElement.getElementsByTagName("areas");
+//                for (int j = 0; j < areaNodeList.getLength(); j++) {
+//                    Element areaElement = (Element) areaNodeList.item(j);
+//                    Log.d("msg", areaElement.getTextContent());
+//                }
+
+                scratchDataList.add(scratchData);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +168,6 @@ public class ScratchData {
                 e.printStackTrace();
             }
         }
-        return rivers;
+        return scratchDataList;
     }
 }
