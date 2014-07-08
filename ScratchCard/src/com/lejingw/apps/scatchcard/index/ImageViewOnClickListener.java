@@ -8,6 +8,7 @@ import android.widget.*;
 import com.lejingw.apps.scatchcard.IndexActivity;
 import com.lejingw.apps.scatchcard.R;
 import com.lejingw.apps.scatchcard.util.DisplayUtil;
+import com.lejingw.apps.scatchcard.util.ImageUtil;
 
 import java.util.List;
 
@@ -98,7 +99,10 @@ public class ImageViewOnClickListener implements View.OnClickListener {
                 ScratchData scratch = scratchDataList.get(position);
                 //业务图片
                 final ImageView scratchPicView = (ImageView) view.findViewById(R.id.scratchPicView);
-                scratchPicView.setImageResource(scratch.getResPicId());
+
+//                scratchPicView.setImageResource(scratch.getResPicId());
+                scratchPicView.setImageBitmap(ImageUtil.readBitMap(context, scratch.getResPicId()));
+
                 final TextView nameTextView = (TextView) view.findViewById(R.id.name);
                 nameTextView.setText(scratch.getName());
                 final TextView topPrizeTextView = (TextView) view.findViewById(R.id.topPrize);
@@ -109,11 +113,13 @@ public class ImageViewOnClickListener implements View.OnClickListener {
                 int i = 0;
                 for (int j = scratch.getPopularityIndex() / 2; i < j; i++) {
                     ImageView scoreImageView = (ImageView) view.findViewById(startScoreArr[i]);
-                    scoreImageView.setImageResource(R.drawable.bg_star_full);
+//                    scoreImageView.setImageResource(R.drawable.bg_star_full);
+                    scoreImageView.setImageBitmap(ImageUtil.readBitMap(context, R.drawable.bg_star_full));
                 }
                 if (scratch.getPopularityIndex() % 2 == 1) {
                     ImageView scoreImageView = (ImageView) view.findViewById(startScoreArr[i]);
-                    scoreImageView.setImageResource(R.drawable.bg_star_half);
+//                    scoreImageView.setImageResource(R.drawable.bg_star_half);
+                    scoreImageView.setImageBitmap(ImageUtil.readBitMap(context, R.drawable.bg_star_half));
                 }
                 final ImageView showDetailView = (ImageView) view.findViewById(R.id.showDetailView);
                 final View popularityIndexLayout = view.findViewById(R.id.popularityIndexLayout);
@@ -129,7 +135,8 @@ public class ImageViewOnClickListener implements View.OnClickListener {
                     public void onClick(View v) {
                         expendFlag = !expendFlag;
                         //更换展开，合起图片
-                        showDetailView.setImageResource(expendFlag ? R.drawable.collipse11 : R.drawable.expand);
+//                        showDetailView.setImageResource(expendFlag ? R.drawable.collipse11 : R.drawable.expand);
+                        showDetailView.setImageBitmap(ImageUtil.readBitMap(context, expendFlag ? R.drawable.collipse11 : R.drawable.expand));
 
                         Context ctx = showDetailView.getContext();
                         if (expendFlag) {

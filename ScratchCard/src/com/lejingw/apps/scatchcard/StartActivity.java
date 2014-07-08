@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import com.lejingw.apps.scatchcard.util.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,8 @@ public class StartActivity extends Activity {
         // 初始化图片资源
         for (int i = 0; i < imageResId.length; i++) {
             ImageView imageView = new ImageView(this);
-            imageView.setImageResource(imageResId[i]);
+//            imageView.setImageResource(imageResId[i]);
+            imageView.setImageBitmap(ImageUtil.readBitMap(this, imageResId[i]));
             imageView.setScaleType(ScaleType.FIT_XY);
 
             if (i + 1 >= imageResId.length) {

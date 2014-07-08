@@ -14,6 +14,7 @@ import android.widget.*;
 import android.widget.ImageView.ScaleType;
 import com.lejingw.apps.scatchcard.index.ImageViewOnClickListener;
 import com.lejingw.apps.scatchcard.index.LunpanOnTouchListener;
+import com.lejingw.apps.scatchcard.util.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +81,8 @@ public class IndexActivity extends Activity {
         // 初始化图片资源
         for (int i = 0; i < imageResIdArr.length; i++) {
             ImageView imageView = new ImageView(this);
-            imageView.setImageResource(imageResIdArr[i]);
+//          imageView.setImageResource(imageResIdArr[i]);
+            imageView.setImageBitmap(ImageUtil.readBitMap(this, imageResIdArr[i]));
             imageView.setScaleType(ScaleType.CENTER_CROP);
             imageViewList.add(imageView);
         }
@@ -213,7 +215,8 @@ public class IndexActivity extends Activity {
     }
 
     public void setLunpanImageView(int lunpanImageResId) {
-        this.lunpanImageView.setImageResource(lunpanImageResId);
+//        this.lunpanImageView.setImageResource(lunpanImageResId);
+        lunpanImageView.setImageBitmap(ImageUtil.readBitMap(this, lunpanImageResId));
     }
 
 

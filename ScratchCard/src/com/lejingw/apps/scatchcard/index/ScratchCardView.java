@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.lejingw.apps.scatchcard.R;
 import com.lejingw.apps.scatchcard.util.DisplayUtil;
+import com.lejingw.apps.scatchcard.util.ImageUtil;
 
 public class ScratchCardView extends ImageView {
     private final Context context;
@@ -44,6 +45,7 @@ public class ScratchCardView extends ImageView {
         setScaleType(ScaleType.FIT_XY);
 
         setImageResource(R.drawable.img_stone_main);
+//        setImageBitmap(ImageUtil.readBitMap(context, R.drawable.img_stone_main));
 
         init();
     }
