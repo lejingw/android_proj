@@ -62,7 +62,7 @@ public class ScratchCardView extends ImageView {
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         this.scale = displayMetrics.density;
-        Log.d("msg", displayMetrics.widthPixels + "---------------" + displayMetrics.heightPixels);
+//        Log.d("msg", displayMetrics.widthPixels + "---------------" + displayMetrics.heightPixels);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, 0, 0, DisplayUtil.dip2px(context, 40));
@@ -70,7 +70,7 @@ public class ScratchCardView extends ImageView {
         setScaleType(ScaleType.FIT_XY);
 
         Bitmap bitmap = ImageUtil.readBitMap(this.getContext(), scratchData.getBgPicName());
-        Log.d("msg", bitmap.getWidth() + "---------------" + bitmap.getHeight());
+//        Log.d("msg", bitmap.getWidth() + "---------------" + bitmap.getHeight());
         setImageBitmap(bitmap);
 //      setImageResource(R.drawable.longfeifengwu_bg);
 
@@ -108,7 +108,7 @@ public class ScratchCardView extends ImageView {
         try {
             is = context.getAssets().open(scratchCover.getPicName());
             Bitmap coverBitmap = BitmapFactory.decodeStream(is);
-//            drawBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            coverBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
             Log.d("msg", coverBitmap.getWidth()+"========="+coverBitmap.getHeight());
             Matrix matrix=new Matrix();
 //            matrix.postScale(0.75f, 0.987f);
@@ -117,18 +117,18 @@ public class ScratchCardView extends ImageView {
 //            drawBitmap = Bitmap.createBitmap(drawBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
             if(!coverBitmap.isRecycled())
                 coverBitmap.recycle();
+            drawCanvas = new Canvas(drawBitmap);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if(null != is){
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+//            if(null != is){
+//                try {
+//                    is.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
-        drawCanvas = new Canvas(drawBitmap);
     }
 
     @Override

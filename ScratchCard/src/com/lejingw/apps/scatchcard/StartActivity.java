@@ -179,6 +179,7 @@ public class StartActivity extends Activity {
 	 */
 	private class MyPageChangeListener implements OnPageChangeListener {
 		private int oldPosition = 0;
+        private boolean misScrolled;
 
 		/**
 		 * This method will be invoked when a new page becomes selected.
@@ -192,8 +193,21 @@ public class StartActivity extends Activity {
 			oldPosition = position;
 		}
 
-		public void onPageScrollStateChanged(int arg0) {
-
+		public void onPageScrollStateChanged(int state) {
+            switch (state) {
+                case ViewPager.SCROLL_STATE_DRAGGING:
+                    misScrolled = false;
+                    break;
+                case ViewPager.SCROLL_STATE_SETTLING:
+                    misScrolled = true;
+                    break;
+                case ViewPager.SCROLL_STATE_IDLE:
+                    if (StartActivity.this.viewPager.getCurrentItem() == StartActivity.this.viewPager.getAdapter().getCount() - 1 && !misScrolled) {
+                        goToMainActiviti();
+                    }
+                    misScrolled = true;
+                    break;
+            }
 		}
 
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
