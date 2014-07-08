@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
+
 import android.view.*;
 import android.widget.*;
 import android.widget.ImageView.ScaleType;
@@ -16,6 +16,7 @@ import com.lejingw.apps.scatchcard.index.ImageViewOnClickListener;
 import com.lejingw.apps.scatchcard.index.LunpanOnTouchListener;
 import com.lejingw.apps.scatchcard.util.ImageUtil;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -25,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 public class IndexActivity extends Activity {
     private ViewPager viewPager;
 
-    //	private String[] titles = new String[]{"title1", "title2", "title3", "title4"}; // 图片标题
-    //	private TextView currentTitleTextView;
+    //private String[] titles = new String[]{"title1", "title2", "title3", "title4"}; // 图片标题
+    //private TextView currentTitleTextView;
     private int[] imageResIdArr = new int[]{R.drawable.img_roll_advs1_s, R.drawable.img_roll_advs2_s, R.drawable.img_roll_advs3_s, R.drawable.img_roll_advs4_s};
     private int[] dotResIdArr = new int[]{R.id.v_dot0, R.id.v_dot1, R.id.v_dot2, R.id.v_dot3};
     private List<ImageView> imageViewList;

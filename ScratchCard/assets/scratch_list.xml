@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScratchDataSet>
+	<ScratchData id="1" name="你好">
+
+		<name>撒旦法</name>
+		<type>1</type>
+		<resPicId></resPicId>
+		<topPrize></topPrize>
+		<backRate></backRate>
+		<popularityIndex></popularityIndex>
+		<areas>
+			<area>a1</area>
+			<area>a2</area>
+		</areas>
+	</ScratchData>
+
+	<ScratchData id="2" name="你好2">
+		<name>撒旦法2</name>
+		<type>1</type>
+		<resPicId></resPicId>
+		<topPrize></topPrize>
+		<backRate></backRate>
+		<popularityIndex></popularityIndex>
+		<areas>
+			<area>b1</area>
+			<area>b2</area>
+		</areas>
+	</ScratchData>
+</ScratchDataSet>

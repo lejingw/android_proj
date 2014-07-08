@@ -33,8 +33,8 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 
         this.mAIntent = new Intent(this, IndexActivity.class);
         this.mBIntent = new Intent(this, MySratchCardActivity.class);
-        this.mCIntent = new Intent(this, PushMoneyActivity.class);
-        this.mDIntent = new Intent(this, PullMoneyActivity.class);
+        this.mCIntent = new Intent(this, MySratchCardActivity.class);
+        this.mDIntent = new Intent(this, MySratchCardActivity.class);
 
         ((RadioButton) findViewById(R.id.radio_button0)).setOnCheckedChangeListener(this);
         ((RadioButton) findViewById(R.id.radio_button1)).setOnCheckedChangeListener(this);
@@ -47,6 +47,7 @@ public class MainActivity extends TabActivity implements OnCheckedChangeListener
 //        //TabHost中有一个getTabWidget()的方法
 //        for (int i = 0; i < count; i++) {
 //            View view = tabHost.getTabWidget().getChildTabViewAt(i);
+//            view.setEnabled(false);
 //            view.getLayoutParams().height = 80;
 //            //tabWidget.getChildAt(i);
 //            final TextView tv = (TextView) view.findViewById(android.R.id.title);
