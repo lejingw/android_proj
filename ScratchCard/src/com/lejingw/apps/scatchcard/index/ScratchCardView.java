@@ -8,6 +8,7 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -83,8 +84,6 @@ public class ScratchCardView extends ImageView {
         init();
     }
 
-
-
     private void init() {
         drawPaint = new Paint();
         drawPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -100,35 +99,73 @@ public class ScratchCardView extends ImageView {
 
 //        canvasStartX = scratchCover.getCanvasStartX();
 //        canvasStartY = scratchCover.getCanvasStartY();
-
     }
 
     private void initCover(){
-        InputStream is = null;
-        try {
-            is = context.getAssets().open(scratchCover.getPicName());
-            Bitmap coverBitmap = BitmapFactory.decodeStream(is);
-            coverBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
-            Log.d("msg", coverBitmap.getWidth()+"========="+coverBitmap.getHeight());
-            Matrix matrix=new Matrix();
-//            matrix.postScale(0.75f, 0.987f);
-            matrix.postScale(scratchCover.getCanvasWidth(), scratchCover.getCanvasHeight());
-            drawBitmap = Bitmap.createBitmap(coverBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
-//            drawBitmap = Bitmap.createBitmap(drawBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
-            if(!coverBitmap.isRecycled())
-                coverBitmap.recycle();
-            drawCanvas = new Canvas(drawBitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-//            if(null != is){
-//                try {
-//                    is.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-        }
+		InputStream in = null;
+		try {
+			in = context.getAssets().open(scratchCover.getPicName());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Bitmap mm = BitmapFactory.decodeStream(in);
+		Bitmap coverBitmap = mm.copy(Bitmap.Config.ARGB_8888, true);
+        Matrix matrix=new Matrix();
+//      matrix.postScale(0.75f, 0.987f);
+        matrix.postScale(scratchCover.getCanvasWidth(), scratchCover.getCanvasHeight());
+		drawBitmap = Bitmap.createBitmap(coverBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
+
+		int width = (int)(coverBitmap.getWidth()*scratchCover.getCanvasWidth());
+		int height = (int)(coverBitmap.getHeight()*scratchCover.getCanvasHeight());
+		drawBitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+
+		drawCanvas = new Canvas(drawBitmap);
+
+		Rect dst = new Rect(0, 0, width, height);
+		drawCanvas.drawBitmap(mm, null, dst, null);
+
+//        InputStream is = null;
+//        try {
+//            is = context.getAssets().open(scratchCover.getPicName());
+//            Bitmap coverBitmap = BitmapFactory.decodeStream(is);
+//            coverBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//            Log.d("msg", coverBitmap.getWidth()+"========="+coverBitmap.getHeight());
+//            Matrix matrix=new Matrix();
+////            matrix.postScale(0.75f, 0.987f);
+//            matrix.postScale(scratchCover.getCanvasWidth(), scratchCover.getCanvasHeight());
+//            drawBitmap = Bitmap.createBitmap(coverBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, false);
+////            drawBitmap = Bitmap.createBitmap(drawBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
+//            if(!coverBitmap.isRecycled())
+//                coverBitmap.recycle();
+//            drawCanvas = new Canvas(drawBitmap);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+////            if(null != is){
+////                try {
+////                    is.close();
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                }
+////            }
+//        }
+
+//		InputStream is = null;
+//		try {
+//			is = context.getAssets().open(scratchCover.getPicName());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		Bitmap coverBitmap = BitmapFactory.decodeStream(is);
+//		drawBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
+//		drawBitmap = Bitmap.createBitmap(1000, 1000, Config.ARGB_8888);
+//		drawCanvas = new Canvas(drawBitmap);
+////		drawCanvas.drawColor(Color.GRAY);
+//
+//		Rect dst = new Rect(0, 0, drawBitmap.getWidth(), drawBitmap.getHeight());
+////            Rect dst = new Rect(dstLeft, dstTop, dstRight, dstBottom);
+//		Bitmap coverBitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.img_stone_scratch);
+//		drawCanvas.drawBitmap(coverBitmap2, null, dst, null);
     }
 
     @Override

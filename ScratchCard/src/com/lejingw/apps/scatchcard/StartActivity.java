@@ -129,6 +129,9 @@ public class StartActivity extends Activity {
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		this.finish();
+
+//		overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+		overridePendingTransition(R.anim.scratchcardwin_in, R.anim.scratchcardwin_out);
 	}
 
 	@Override
