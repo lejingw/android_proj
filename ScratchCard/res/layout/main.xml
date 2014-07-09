@@ -1,56 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-		 android:id="@android:id/tabhost"
-		 android:layout_width="fill_parent"
-		 android:layout_height="fill_parent">
+         android:id="@android:id/tabhost"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent">
 
-	<LinearLayout android:layout_width="fill_parent"
-				  android:layout_height="fill_parent"
-				  android:orientation="vertical">
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical">
 
-		<FrameLayout android:id="@android:id/tabcontent"
-					 android:layout_width="fill_parent"
-					 android:layout_height="0.0dip"
-					 android:layout_weight="1.0"/>
+        <FrameLayout android:id="@android:id/tabcontent"
+                     android:layout_width="fill_parent"
+                     android:layout_height="0.0dip"
+                     android:layout_weight="1.0"/>
 
-		<TabWidget android:id="@android:id/tabs"
-				   android:layout_width="fill_parent"
-				   android:layout_height="50dp"
-				   android:layout_weight="0.0"
-				   android:visibility="gone"/>
+        <!-- TabWidget管理所有的选项卡，id名是android指定的 -->
+        <TabWidget android:id="@android:id/tabs"
+                   android:layout_width="fill_parent"
+                   android:layout_height="wrap_content"
+                   android:visibility="gone"
+                   android:layout_weight="0.0"/>
 
-		<RadioGroup android:id="@+id/main_radio"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:layout_gravity="bottom"
-                    android:layout_marginBottom="-10dp"
-					android:gravity="center_vertical"
-					android:background="@drawable/maintab_toolbar_bg"
-					android:orientation="horizontal">
+        <RadioGroup android:id="@+id/main_radio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#666"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_gravity="bottom">
 
+            <RadioButton android:id="@+id/radio_button0"
+                         style="@style/main_tab_bottom"
+                         android:checked="true"
+                         android:drawableBottom="@drawable/tab_sy_style"/>
+            <RadioButton android:id="@+id/radio_button1"
+                         style="@style/main_tab_bottom"
+                         android:enabled="true"
+                         android:drawableBottom="@drawable/tab_wd_style"/>
+            <RadioButton android:id="@+id/radio_button2"
+                         style="@style/main_tab_bottom"
+                         android:enabled="true"
+                         android:drawableBottom="@drawable/tab_cz_style"/>
+            <RadioButton android:id="@+id/radio_button3"
+                         style="@style/main_tab_bottom"
+                         android:enabled="true"
+                         android:drawableBottom="@drawable/tab_tx_style"/>
+        </RadioGroup>
 
-			<RadioButton android:id="@+id/radio_button0"
-						 style="@style/radio_style"
-                         android:text="@null"
-						 android:drawableTop="@drawable/tab_sy"
-						 android:checked="true"/>
-			<!--disabled-->
-			<RadioButton android:id="@+id/radio_button1"
-						 style="@style/radio_style"
-                         android:text="@null"
-						 android:drawableTop="@drawable/tab_wd"/>
-
-			<RadioButton android:id="@+id/radio_button2"
-						 style="@style/radio_style"
-                         android:text="@null"
-						 android:drawableTop="@drawable/tab_cz"/>
-
-			<RadioButton android:id="@+id/radio_button3"
-						 style="@style/radio_style"
-                         android:text="@null"
-						 android:drawableTop="@drawable/tab_tx"/>
-		</RadioGroup>
-
-	</LinearLayout>
+    </LinearLayout>
 
 </TabHost>

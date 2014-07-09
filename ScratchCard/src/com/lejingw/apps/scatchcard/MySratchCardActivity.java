@@ -16,6 +16,7 @@ public class MySratchCardActivity extends Activity {
         tv.setSingleLine(false);
 		tv.setText("开发中...待完善...");
 		tv.setGravity(Gravity.CENTER);
+
 		setContentView(tv);
 	}
 

@@ -29,7 +29,7 @@ public class LunpanOnTouchListener implements View.OnTouchListener {
             view.getLocationOnScreen(location);
 
             centerPointX = location[0] + view.getWidth() / 2;
-            centerPointY = location[1] + view.getHeight() / 2;
+            centerPointY = location[1] + view.getHeight() * 3 / 5;
 
             RADIUS_MIN_LENGTH = view.getWidth() / 2 / 4;
             RADIUS_MAX_LENGTH = RADIUS_MIN_LENGTH * 3;

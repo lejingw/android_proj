@@ -109,7 +109,7 @@ public class ListViewAdapter extends BaseAdapter {
                         expendFlag = !expendFlag;
                         //更换展开，合起图片
 //                        showDetailView.setImageResource(expendFlag ? R.drawable.collipse11 : R.drawable.expand);
-                        showDetailView.setImageBitmap(ImageUtil.readBitMap(indexActivity, expendFlag ? R.drawable.collipse11 : R.drawable.expand));
+                        showDetailView.setImageBitmap(ImageUtil.readBitMap(indexActivity, expendFlag ? R.drawable.collipse : R.drawable.expand));
 
                         Context ctx = showDetailView.getContext();
                         if (expendFlag) {
