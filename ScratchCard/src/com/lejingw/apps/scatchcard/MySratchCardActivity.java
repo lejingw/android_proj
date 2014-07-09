@@ -13,7 +13,8 @@ public class MySratchCardActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		TextView tv = new TextView(this);
-		tv.setText("我的刮刮乐");
+        tv.setSingleLine(false);
+		tv.setText("开发中...待完善...");
 		tv.setGravity(Gravity.CENTER);
 		setContentView(tv);
 	}

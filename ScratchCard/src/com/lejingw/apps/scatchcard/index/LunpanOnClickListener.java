@@ -55,7 +55,7 @@ public class LunpanOnClickListener implements View.OnClickListener {
             //实现列表的显示
             listView.setAdapter(new ListViewAdapter(indexActivity));
             //列表点击事件
-            listView.setOnItemClickListener(new ScratchCardClickListener(view));
+            listView.setOnItemClickListener(new ScratchCardClickListener(indexActivity, view));
 
             popWindow.setAnimationStyle(R.style.popWinInOutAnimation);
             popWindow.setFocusable(true);
@@ -65,9 +65,11 @@ public class LunpanOnClickListener implements View.OnClickListener {
 
         //获取点击事件
         private final class ScratchCardClickListener implements AdapterView.OnItemClickListener {
+            private IndexActivity indexActivity;
             private View parentView;
 
-            public ScratchCardClickListener(View view) {
+            public ScratchCardClickListener(IndexActivity indexActivity, View view) {
+                this.indexActivity = indexActivity;
                 this.parentView = view;
             }
 
@@ -99,13 +101,13 @@ public class LunpanOnClickListener implements View.OnClickListener {
                     }
                 });
 
+                LinearLayout scratchcardLayout = (LinearLayout) popWinView.findViewById(R.id.scratchcardLayout);
+                scratchcardLayout.addView(new ScratchCardView(parentView.getContext(), popWinView, popWindow, scratchData, i == 0));
+
                 popWindow.setAnimationStyle(R.style.scratchcardInOutAnimation);
                 popWindow.setFocusable(true);
                 popWindow.update();
                 popWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-
-                LinearLayout scratchcardLayout = (LinearLayout) popWinView.findViewById(R.id.scratchcardLayout);
-                scratchcardLayout.addView(new ScratchCardView(scratchcardLayout.getContext(), popWinView, popWindow, scratchData, i == 0));
             }
         }
     }

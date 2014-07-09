@@ -96,6 +96,15 @@ public class ScratchData {
         this.scratchCover = scratchCover;
     }
 
+
+    public String getRawPicName() {
+        if(null != bgPicName){
+            String temp = bgPicName.replace('/', '_');//bgPicName.lastIndexOf("/") + 1, bgPicName.lastIndexOf("."));
+            return temp.substring(0, temp.lastIndexOf("."));
+        }
+        return null;
+    }
+
     /**
      * 参数fileName：为xml文档路径
      */

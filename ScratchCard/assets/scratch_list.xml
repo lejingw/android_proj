@@ -10,7 +10,7 @@
                 canvasStartX="272" canvasStartY="62" canvasWidth="0.75" canvasHeight="0.987"/>
     </ScratchData>
     <ScratchData id="3" type="4" name="闹新春" resPicName="naoxinchun_icon.jpg" bgPicName="naoxinchun_bg.png" topPrize="10" backRate="65" popularityIndex="7">
-        <ScratchCover picName="naoxinchun_fg.png" canvasStartXRate="0.5708333" canvasStartYRate="0.10081744"
+        <ScratchCover picName="naoxinchun_fg.png" canvasStartXRate="0.5868333" canvasStartYRate="0.12181744"
                       canvasStartX="274" canvasStartY="74" canvasWidth="0.8" canvasHeight="1.06"/>
     </ScratchData>
 
