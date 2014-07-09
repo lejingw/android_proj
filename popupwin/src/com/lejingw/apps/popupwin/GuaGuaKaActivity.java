@@ -11,16 +11,21 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class GuaGuaKaActivity extends Activity {
 //	int screenWidth = 0;
 //	int screenHeight = 0;
-	int screenWidth = 330;
-	int screenHeight = 504;
+//	int screenWidth = 330;
+//	int screenHeight = 504;
+    private int imageViewWidth = -1, imageViewHeight = -1;
+    private int bgWidth, bgHeight;
+    private float sx, sy;
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -41,32 +46,44 @@ public class GuaGuaKaActivity extends Activity {
 		public GuaGuaKa(Context context) {
 			super(context);
 			setBackgroundDrawable(getResources().getDrawable(R.drawable.img_stone_main));
+
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.img_stone_main);
+            //下句无效，不能有效的支持图片拉伸
+//        setImageBitmap(bitmap);
+            Log.d("msg", bitmap.getWidth() + "---------------" + bitmap.getHeight());
+            bgWidth = bitmap.getWidth();
+            bgHeight = bitmap.getHeight();
+
 			init(context);
 		}
 
 		private void init(Context context) {
 
-			mPaint = new Paint();
-			mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-			mPaint.setAntiAlias(true);
-			mPaint.setDither(true);
-			mPaint.setStyle(Style.STROKE);
-			mPaint.setStrokeWidth(15);
-			mPaint.setStrokeCap(Cap.ROUND);
-			mPaint.setStrokeJoin(Join.ROUND);
-			mPaint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
-			mPaint.setAlpha(0);
+            mPaint = new Paint();
+            mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            mPaint.setAntiAlias(true);
+            mPaint.setDither(true);
+            mPaint.setStyle(Style.STROKE);
+            mPaint.setStrokeWidth(15);
+            mPaint.setStrokeCap(Cap.ROUND);
+            mPaint.setStrokeJoin(Join.ROUND);
+            mPaint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
+            mPaint.setAlpha(0);
 
-			bitmap = Bitmap.createBitmap(screenWidth, screenHeight, Config.ARGB_8888);
-			mCanvas = new Canvas(bitmap);
-			mCanvas.drawColor(Color.GRAY);
+        }
+        private void initCover(){
 
-			int width = 480;
-			int height = 850;
-			int x1 = -140;
-			int y1 = -214;
-			Rect dst = new Rect(x1, y1, x1+width, y1+height) ;
-			Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.img_stone_scratch);
+            Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.img_stone_scratch);
+
+            int width = (int)(sx * bitmap2.getWidth());
+            int height = (int)(sy * bitmap2.getHeight());
+
+            bitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+            mCanvas = new Canvas(bitmap);
+            mCanvas.drawColor(Color.GRAY);
+
+
+			Rect dst = new Rect(0, 0, width, height) ;
 			mCanvas.drawBitmap(bitmap2, null, dst, null);
 		}
 
@@ -76,6 +93,15 @@ public class GuaGuaKaActivity extends Activity {
 		@Override
 		protected void onDraw(Canvas canvas) {
 			super.onDraw(canvas);
+            if (imageViewWidth < 0) {
+                synchronized (this) {
+                    imageViewWidth = canvas.getWidth();
+                    imageViewHeight = canvas.getHeight();
+                    sx = (float)imageViewWidth / bgWidth;
+                    sy = (float)imageViewHeight / bgHeight;
+                    initCover();
+                }
+            }
 			mCanvas.drawPath(mPath, mPaint);
 			canvas.drawBitmap(bitmap, startX, startY, null);
 		}

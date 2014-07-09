@@ -57,11 +57,26 @@
 			  android:singleLine="true"
 			  android:layout_gravity="center_horizontal"/>
 
-	<ImageButton
-			android:id="@+id/lunpanImageButton"
+
+	<FrameLayout
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:scaleType="fitEnd"
-			android:background="#00000000"
-			android:src="@drawable/lunpan_0"/>
+			android:layout_height="fill_parent">
+
+		<ImageButton
+				android:id="@+id/lunpanImageButton"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:scaleType="fitEnd"
+				android:background="#00000000"
+				android:src="@drawable/lunpan_0"/>
+
+		<ImageView
+				android:id="@+id/lunpanCenterImageButton"
+				android:layout_width="116dp"
+				android:layout_height="116dp"
+				android:layout_marginTop="36.5dp"
+				android:scaleType="fitCenter"
+				android:layout_gravity="center"
+				android:src="@drawable/img_center_jb"/>
+	</FrameLayout>
 </LinearLayout>
