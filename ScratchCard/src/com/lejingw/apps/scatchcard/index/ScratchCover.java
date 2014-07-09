@@ -10,17 +10,13 @@ public class ScratchCover {
     private float canvasStartYRate = 178;
     private int canvasStartX = 140;
     private int canvasStartY = 178;
-    private float canvasWidth = 326;
-    private float canvasHeight = 434;
 
-    public ScratchCover(String picName, float canvasStartXRate, float canvasStartYRate, int canvasStartX, int canvasStartY, float canvasWidth, float canvasHeight) {
+    public ScratchCover(String picName, float canvasStartXRate, float canvasStartYRate, int canvasStartX, int canvasStartY) {
         this.picName = picName;
         this.canvasStartXRate = canvasStartXRate;
         this.canvasStartYRate = canvasStartYRate;
         this.canvasStartX = canvasStartX;
         this.canvasStartY = canvasStartY;
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
     }
 
     public String getPicName() {
@@ -45,22 +41,6 @@ public class ScratchCover {
 
     public void setCanvasStartY(int canvasStartY) {
         this.canvasStartY = canvasStartY;
-    }
-
-    public float getCanvasWidth() {
-        return canvasWidth;
-    }
-
-    public void setCanvasWidth(float canvasWidth) {
-        this.canvasWidth = canvasWidth;
-    }
-
-    public float getCanvasHeight() {
-        return canvasHeight;
-    }
-
-    public void setCanvasHeight(float canvasHeight) {
-        this.canvasHeight = canvasHeight;
     }
 
     public float getCanvasStartXRate() {

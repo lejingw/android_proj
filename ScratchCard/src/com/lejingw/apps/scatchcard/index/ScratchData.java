@@ -99,8 +99,7 @@ public class ScratchData {
 
     public String getRawPicName() {
         if(null != bgPicName){
-            String temp = bgPicName.replace('/', '_');//bgPicName.lastIndexOf("/") + 1, bgPicName.lastIndexOf("."));
-            return temp.substring(0, temp.lastIndexOf("."));
+            return bgPicName.substring(0, bgPicName.lastIndexOf("."));
         }
         return null;
     }
@@ -133,7 +132,6 @@ public class ScratchData {
 
                 Log.d("msg", scratchDataElement.getAttribute("name"));
 
-
                 int resPicId = context.getResources().getIdentifier(resPicName, "drawable", "com.lejingw.apps.scatchcard");
 
                 ScratchData scratchData = new ScratchData();
@@ -141,8 +139,8 @@ public class ScratchData {
                 scratchData.setId(id);
                 scratchData.setName(name);
                 scratchData.setType(Integer.parseInt(type));
-                scratchData.setResPicName("type" + type + "/" + resPicName);
-                scratchData.setBgPicName("type" + type + "/" + bgPicName);
+                scratchData.setResPicName("type" + type + "/" + resPicName);//assets目录下
+                scratchData.setBgPicName("type" + type + "_" + bgPicName);//res/raw目录下
                 scratchData.setTopPrize(Integer.parseInt(topPrize));
                 scratchData.setBackRate(Integer.parseInt(backRate));
                 scratchData.setPopularityIndex(Integer.parseInt(popularityIndex));
@@ -154,17 +152,9 @@ public class ScratchData {
                 float canvasStartYRate = Float.parseFloat(scratchCoverElement.getAttribute("canvasStartYRate"));
                 int canvasStartX = Integer.parseInt(scratchCoverElement.getAttribute("canvasStartX"));
                 int canvasStartY = Integer.parseInt(scratchCoverElement.getAttribute("canvasStartY"));
-                float canvasWidth = Float.parseFloat(scratchCoverElement.getAttribute("canvasWidth"));
-                float canvasHeight = Float.parseFloat(scratchCoverElement.getAttribute("canvasHeight"));
 
-                ScratchCover scratchCover1 = new ScratchCover(picName, canvasStartXRate, canvasStartYRate, canvasStartX, canvasStartY, canvasWidth, canvasHeight);
+                ScratchCover scratchCover1 = new ScratchCover(picName, canvasStartXRate, canvasStartYRate, canvasStartX, canvasStartY);
                 scratchData.setScratchCover(scratchCover1);
-
-//                NodeList areaNodeList = scratchDataElement.getElementsByTagName("areas");
-//                for (int j = 0; j < areaNodeList.getLength(); j++) {
-//                    Element areaElement = (Element) areaNodeList.item(j);
-//                    Log.d("msg", areaElement.getTextContent());
-//                }
 
                 scratchDataList.add(scratchData);
             }

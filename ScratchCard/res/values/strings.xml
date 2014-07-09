@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_name">ScratchCard</string>
+	<string name="app_name">中国福彩刮刮乐</string>
 	<string name="mainTitle">中国福彩刮刮乐</string>
     <string name="select_scope_tip">请选择想要购买刮刮卡的面值</string>
 

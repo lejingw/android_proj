@@ -8,7 +8,6 @@ import android.graphics.Paint.Cap;
 import android.graphics.Paint.Join;
 import android.graphics.Paint.Style;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,12 +25,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ScratchCardView extends ImageView {
+    private final String PACKAGE_NAME = "com.lejingw.apps.scatchcard";
+    private final String RAW_DIRECTORY = "raw";
     private final Context context;
     private final View popWinView;
     private final PopupWindow popWindow;
+
     private ScratchData scratchData;
-    private final boolean rewardFlag;
     private ScratchCover scratchCover;
+    private final boolean rewardFlag;
 
     private Button tryScratchBtn;
     private Button buyScratchCardBtn;
@@ -40,10 +42,11 @@ public class ScratchCardView extends ImageView {
 
     private final float scale;
 
-    private int imageViewWidth = -1;
-    private int imageViewHeight = -1;
+    private int imageViewWidth = -1, imageViewHeight = -1;
     private int bgWidth, bgHeight;
     private float sx, sy;
+
+    private int preClickX = 0, preClickY = 0;
 
     //测试机器MI1S,480*854分辨率
 //    private int canvasStartX;
@@ -66,21 +69,21 @@ public class ScratchCardView extends ImageView {
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         this.scale = displayMetrics.density;
-//        Log.d("msg", displayMetrics.widthPixels + "---------------" + displayMetrics.heightPixels);
+        Log.d("msg", displayMetrics.widthPixels + "---------------" + displayMetrics.heightPixels);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, 0, 0, DisplayUtil.dip2px(context, 40));
         setLayoutParams(lp);
         setScaleType(ScaleType.FIT_XY);
+        //根据名称获取资源id
+        int backgroundResId = context.getResources().getIdentifier(scratchData.getRawPicName(), RAW_DIRECTORY, PACKAGE_NAME);
+        setImageResource(backgroundResId);
+        Log.d("msg", "-------------"+backgroundResId);
 
-        int longfeifengwu_bg = context.getResources().getIdentifier(scratchData.getRawPicName(), "raw", "com.lejingw.apps.scatchcard");
-        setImageResource(longfeifengwu_bg);
-//        Log.d("msg", "-------------"+longfeifengwu_bg);
+//        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), backgroundResId);
+        Bitmap bitmap = ImageUtil.readBitMap(context, backgroundResId);
+        //下句无效，不能有效的支持图片拉伸
 //        setImageBitmap(bitmap);
-//        BitmapFactory.decodeResource(context.getResources(), longfeifengwu_bg);
-//        setImageResource(R.drawable.longfeifengwu_bg);
-
-        Bitmap bitmap = ImageUtil.readBitMap(this.getContext(), longfeifengwu_bg);
         Log.d("msg", bitmap.getWidth() + "---------------" + bitmap.getHeight());
         bgWidth = bitmap.getWidth();
         bgHeight = bitmap.getHeight();
@@ -91,10 +94,10 @@ public class ScratchCardView extends ImageView {
         tryScratchBtn = (Button)popWinView.findViewById(R.id.tryScratchBtn);
         tryScratchBtn.setOnClickListener(new TryScratchClickListener());
 
-        init();
+        initPaint();
     }
 
-    private void init() {
+    private void initPaint() {
         drawPaint = new Paint();
         drawPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         drawPaint.setAntiAlias(true);
@@ -121,16 +124,9 @@ public class ScratchCardView extends ImageView {
 		}
 		Bitmap orignalBitmap = BitmapFactory.decodeStream(in);
 //		Bitmap coverBitmap = orignalBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-//        Matrix matrix=new Matrix();
-//        Log.d("msg", sx+"-----"+sy);
-//        matrix.postScale(sx, sy);
-//
-////        matrix.postScale(scratchCover.getCanvasWidth(), scratchCover.getCanvasHeight());
+//      Matrix matrix=new Matrix();
+//      matrix.postScale(sx, sy);
 //		drawBitmap = Bitmap.createBitmap(coverBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
-
-//		int width = (int)(coverBitmap.getWidth()*scratchCover.getCanvasWidth());
-//		int height = (int)(coverBitmap.getHeight()*scratchCover.getCanvasHeight());
 
         int width = (int)(sx * orignalBitmap.getWidth());
         int height = (int)(sy * orignalBitmap.getHeight());
@@ -140,48 +136,7 @@ public class ScratchCardView extends ImageView {
 		Rect dst = new Rect(0, 0, width, height);
 		drawCanvas.drawBitmap(orignalBitmap, null, dst, null);
 
-//        InputStream is = null;
-//        try {
-//            is = context.getAssets().open(scratchCover.getPicName());
-//            Bitmap coverBitmap = BitmapFactory.decodeStream(is);
-//            coverBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
-//            Log.d("msg", coverBitmap.getWidth()+"========="+coverBitmap.getHeight());
-//            Matrix matrix=new Matrix();
-////            matrix.postScale(0.75f, 0.987f);
-//            matrix.postScale(scratchCover.getCanvasWidth(), scratchCover.getCanvasHeight());
-//            drawBitmap = Bitmap.createBitmap(coverBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, false);
-////            drawBitmap = Bitmap.createBitmap(drawBitmap, 0, 0, coverBitmap.getWidth(), coverBitmap.getHeight(), matrix, true);
-//            if(!coverBitmap.isRecycled())
-//                coverBitmap.recycle();
-//            drawCanvas = new Canvas(drawBitmap);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-////            if(null != is){
-////                try {
-////                    is.close();
-////                } catch (IOException e) {
-////                    e.printStackTrace();
-////                }
-////            }
-//        }
-
-//		InputStream is = null;
-//		try {
-//			is = context.getAssets().open(scratchCover.getPicName());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		Bitmap coverBitmap = BitmapFactory.decodeStream(is);
-//		drawBitmap = coverBitmap.copy(Bitmap.Config.ARGB_8888, true);
-//		drawBitmap = Bitmap.createBitmap(1000, 1000, Config.ARGB_8888);
-//		drawCanvas = new Canvas(drawBitmap);
-////		drawCanvas.drawColor(Color.GRAY);
-//
-//		Rect dst = new Rect(0, 0, drawBitmap.getWidth(), drawBitmap.getHeight());
-////            Rect dst = new Rect(dstLeft, dstTop, dstRight, dstBottom);
-//		Bitmap coverBitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.img_stone_scratch);
-//		drawCanvas.drawBitmap(coverBitmap2, null, dst, null);
+        invalidate();
     }
 
     @Override
@@ -202,9 +157,6 @@ public class ScratchCardView extends ImageView {
 //        canvas.drawBitmap(drawBitmap, scratchCover.getCanvasStartX(), scratchCover.getCanvasStartY(), null);
         canvas.drawBitmap(drawBitmap, scratchCover.getCanvasStartXRate()* imageViewWidth, scratchCover.getCanvasStartYRate()* imageViewHeight, null);
     }
-
-    private int preClickX = 0;
-    private int preClickY = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -261,7 +213,7 @@ public class ScratchCardView extends ImageView {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-                            tryAgain();
+                            initCover();
                             tryScratchBtn.setText("试刮兑奖");
                             ScratchCardView.this.scratchEnabled = true;
                         }
@@ -269,11 +221,6 @@ public class ScratchCardView extends ImageView {
 
             builder.create2().show();
         }
-    }
-
-    private void tryAgain(){
-        initCover();
-        invalidate();
     }
 
     class TryScratchClickListener implements OnClickListener {
@@ -307,7 +254,7 @@ public class ScratchCardView extends ImageView {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
 
-                                tryAgain();
+                                initCover();
                                 tryScratchBtn.setText("试刮兑奖");
                                 ScratchCardView.this.scratchEnabled = true;
                             }
@@ -315,7 +262,7 @@ public class ScratchCardView extends ImageView {
 
                 builder.create2().show();
             }else if("再玩一次".equals(tryScratchBtn.getText())){
-                tryAgain();
+                initCover();
                 tryScratchBtn.setText("试刮兑奖");
                 ScratchCardView.this.scratchEnabled = true;
             }
