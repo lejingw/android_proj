@@ -136,31 +136,21 @@ public class StartActivity extends Activity {
     };
 
 
-    @Override
-    protected void onStart() {
+//    @Override
+//    protected void onStart() {
 //		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        // 当Activity显示出来后，每两秒钟切换一次图片显示
+//        // 当Activity显示出来后，每两秒钟切换一次图片显示
 //		scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 2, TimeUnit.SECONDS);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        // 当Activity不可见的时候停止切换
+//        super.onStart();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        // 当Activity不可见的时候停止切换
 //		scheduledExecutorService.shutdown();
-        super.onStop();
-    }
+//        super.onStop();
+//    }
 
-    @Override
-    public void onBackPressed() {
-        currentItem = (currentItem - 1) % imageViews.size();
-        Log.d("msg", "currentItem = " + currentItem);
-        if (currentItem < 0) {
-            finish();
-        } else {
-            viewPager.setCurrentItem(currentItem);
-        }
-    }
 
     /**
      * 换行切换任务
@@ -301,16 +291,27 @@ public class StartActivity extends Activity {
 
 //		overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         overridePendingTransition(R.anim.scratchcardwin_in, R.anim.scratchcardwin_out2);
-//        this.finish();
+        this.finish();
     }
 
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        // TODO Auto-generated method stub
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            goToMainActiviti();
+//            return false;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            goToMainActiviti();
-            return false;
+    public void onBackPressed() {
+        currentItem = (currentItem - 1) % imageViews.size();
+        Log.d("msg", "currentItem = " + currentItem);
+        if (currentItem < 0) {
+            finish();
+        } else {
+            viewPager.setCurrentItem(currentItem);
         }
-        return super.onKeyDown(keyCode, event);
     }
 }
