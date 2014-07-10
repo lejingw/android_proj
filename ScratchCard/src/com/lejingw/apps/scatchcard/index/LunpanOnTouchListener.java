@@ -7,8 +7,7 @@ import com.lejingw.apps.scatchcard.IndexActivity;
 import com.lejingw.apps.scatchcard.R;
 
 public class LunpanOnTouchListener implements View.OnTouchListener {
-    private int[] lunpanIdArr = new int[]{R.drawable.lunpan_0, R.drawable.lunpan_1,
-            R.drawable.lunpan_2, R.drawable.lunpan_3, R.drawable.lunpan_4, R.drawable.lunpan_5};
+    private int[] lunpanIdArr = new int[]{R.drawable.lunpan_0, R.drawable.lunpan_1, R.drawable.lunpan_2, R.drawable.lunpan_3, R.drawable.lunpan_4, R.drawable.lunpan_5};
 
     private IndexActivity indexActivity;
 

@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.widget.ImageView.ScaleType;
@@ -24,18 +25,15 @@ import java.util.concurrent.TimeUnit;
 
 public class IndexActivity extends Activity {
     private ViewPager viewPager;
-
     //private String[] titles = new String[]{"title1", "title2", "title3", "title4"}; // 图片标题
     //private TextView currentTitleTextView;
     private int[] imageResIdArr = new int[]{R.drawable.img_roll_advs1_s, R.drawable.img_roll_advs2_s, R.drawable.img_roll_advs3_s, R.drawable.img_roll_advs4_s};
     private int[] dotResIdArr = new int[]{R.id.v_dot0, R.id.v_dot1, R.id.v_dot2, R.id.v_dot3};
     private List<ImageView> imageViewList;
     private List<View> dotViewList; // 图片标题正文的那些点
-
-    private int selectItemIndex = -1;
-
     private int currentItem = 0; // 当前图片的索引号
 
+    private int selectItemIndex = -1;
     private ImageView lunpanImageView;
 
     // An ExecutorService that can schedule commands to run after a given delay, or to execute periodically.
@@ -65,9 +63,7 @@ public class IndexActivity extends Activity {
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, StartActivity.class);
-                startActivity(intent);
-                IndexActivity.this.finish();
+                backToStartActivity();
             }
         });
 
@@ -77,10 +73,6 @@ public class IndexActivity extends Activity {
     }
 
     private void initImageAndDot(){
-//        int resID = getResources().getIdentifier("img_introduce3", "drawable", "com.lejingw.apps.scatchcard");
-//        int id = R.drawable.img_introduce3;
-//        InputStream inputStream = getAssets().open("type4/scratch1.jpg");
-
         imageViewList = new ArrayList<ImageView>();
         // 初始化图片资源
         for (int i = 0; i < imageResIdArr.length; i++) {
@@ -190,7 +182,6 @@ public class IndexActivity extends Activity {
 
         @Override
         public void restoreState(Parcelable arg0, ClassLoader arg1) {
-
         }
 
         @Override
@@ -200,12 +191,10 @@ public class IndexActivity extends Activity {
 
         @Override
         public void startUpdate(View arg0) {
-
         }
 
         @Override
         public void finishUpdate(View arg0) {
-
         }
     }
 
@@ -226,6 +215,10 @@ public class IndexActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        backToStartActivity();
+    }
+
+    private void backToStartActivity(){
         Intent intent = new Intent(this, StartActivity.class);
         startActivity(intent);
         this.finish();
